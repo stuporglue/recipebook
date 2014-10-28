@@ -2,3 +2,8 @@
     RewriteEngine On
     RewriteRule recipe/(.*)/.* recipe.php?id=$1 
 </IfModule>
+
+AddDefaultCharset utf-8
+<IfModule mod_mime.c>
+    AddCharset utf-8 .php .html .xml .css .js .json
+</IfModule>
