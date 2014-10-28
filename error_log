@@ -1,0 +1,12 @@
+[27-Oct-2014 19:31:29 America/Denver] PHP Warning:  pg_query_params(): Query failed: ERROR:  relation &quot;recipie_recipe&quot; does not exist
+LINE 1: SELECT * FROM recipie_recipe WHERE parent=$1
+                      ^ in /home2/stuporgl/public_html/recipebook/lib/recipe.php on line 28
+[27-Oct-2014 19:31:29 America/Denver] PHP Warning:  pg_fetch_assoc() expects parameter 1 to be resource, boolean given in /home2/stuporgl/public_html/recipebook/lib/recipe.php on line 30
+[27-Oct-2014 19:31:29 America/Denver] PHP Catchable fatal error:  Method recipe::__toString() must return a string value in /home2/stuporgl/public_html/recipebook/recipe.php on line 5
+[27-Oct-2014 19:32:00 America/Denver] PHP Catchable fatal error:  Method recipe::__toString() must return a string value in /home2/stuporgl/public_html/recipebook/recipe.php on line 5
+[27-Oct-2014 19:32:48 America/Denver] PHP Catchable fatal error:  Method recipe::__toString() must return a string value in /home2/stuporgl/public_html/recipebook/recipe.php on line 5
+[27-Oct-2014 19:34:30 America/Denver] PHP Catchable fatal error:  Method recipe::__toString() must return a string value in /home2/stuporgl/public_html/recipebook/recipe.php on line 5
+[27-Oct-2014 19:36:01 America/Denver] PHP Notice:  Undefined variable: Ingredient in /home2/stuporgl/public_html/recipebook/recipe.php on line 16
+[27-Oct-2014 19:39:19 America/Denver] PHP Notice:  Undefined variable: ingredients in /home2/stuporgl/public_html/recipebook/recipe.php on line 16
+[27-Oct-2014 19:39:40 America/Denver] PHP Notice:  Undefined variable: ingredients in /home2/stuporgl/public_html/recipebook/recipe.php on line 16
+[27-Oct-2014 19:43:38 America/Denver] PHP Catchable fatal error:  Method recipe::__toString() must return a string value in /home2/stuporgl/public_html/recipebook/recipe.php on line 5

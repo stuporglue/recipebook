@@ -1,0 +1,4 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule recipe/(.*)/.* recipe.php?id=$1 
+</IfModule>
