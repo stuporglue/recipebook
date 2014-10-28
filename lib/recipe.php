@@ -3,7 +3,7 @@ require_once('db.inc');
 
 class recipe {
     function __construct($id){
-        $res = pg_query_params('SELECT * FROM recipes WHERE id=$1',Array($id));
+        $res = pg_query_params('SELECT r.*,c.name AS category FROM recipes r,categories c WHERE r.id=$1 AND r.category=c.id',Array($id));
         if(!$res){
             var_dump($res);
             throw new Exception("No such recipe");
@@ -12,24 +12,51 @@ class recipe {
         foreach($row as $k => $v){
             $this->$k = $v;
         }
-        $this->ingredients();
-        $this->subrecipes();
+        $this->getIngredients();
+        $this->getSubrecipes();
     }
 
-    function ingredients(){
+    function getIngredients(){
+        if(isset($this->ingredients)){
+            return $this->ingredients;
+        }
         $res = pg_query_params("SELECT * FROM pretty_ingredients WHERE recipe_id=$1",Array($this->id));
         $this->ingredients = Array();
         while($row = pg_fetch_assoc($res)){
             $this->ingredients[] = $row;
         }
+            return $this->ingredients;
     }
 
-    function subrecipes(){
+    function getSubrecipes(){
+        if(isset($this->subrecipes)){
+            return $this->subrecipes;
+        }
         $res = pg_query_params("SELECT * FROM recpie_recipe WHERE parent=$1",Array($this->id));
         $this->subrecipes = Array();
         while($row = pg_fetch_assoc($res)){
             $this->subrecipes[$row['childname']] = new recipe($row['child']);
         }
+        $more = Array();
+        foreach($this->subrecipes as $sub){
+            $more = array_merge($more,$sub->subrecipes);
+        }
+        $this->subrecipes = array_merge($this->subrecipes,$more);
+        return $this->subrecipes;
+    }
+
+    function ingredientString($subname=NULL){
+        $moreclasses = (is_null($subname) ? '' : ' sub');
+        $ret = "<div class='ingredients$moreclasses'>";
+        if(!is_null($subname)){
+            $ret .= "<h3>$subname</h3>";
+        }
+        $ret .= "<ul>";
+        foreach($this->ingredients as $ingredient){
+            $ret .= "<li>{$ingredient['quantity']} <span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span> {$ingredient['ingredient']}</li>";
+        }
+        $ret .= "</ul></div>";
+        return $ret;
     }
 
     function __toString(){
