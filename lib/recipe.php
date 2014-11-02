@@ -55,6 +55,7 @@ class recipe {
         }
         $ret .= "<ul>";
         foreach($this->ingredients as $ingredient){
+            $ingredient['ingredient'] = str_replace(' ,',',',$ingredient['ingredient']);
             $ret .= "<li>" . $this->quantityToString($ingredient['quantity']) . " <span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span> {$ingredient['ingredient']}</li>";
         }
         $ret .= "</ul></div>";
