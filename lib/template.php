@@ -11,7 +11,7 @@ $header = "<!DOCTYPE html>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <meta name='description' content=''>
     <meta name='author' content=''>
-    <link rel='icon' href='". str_repeat('../',$cssRelative) . "favicon.png'>
+    <link rel='icon' href='". str_repeat('../img/',$cssRelative) . "favicon.png'>
 
     <title>Eat Moore!</title>
 
@@ -57,18 +57,13 @@ $header = "<!DOCTYPE html>
 
             // $header .= "<li class='".($activeCat == 'meal' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."meal/'>Meal?</a></li>";
 
-            $header .= "<!-- li class='dropdown'>
-              <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Dropdown <span class='caret'></span></a>
+            $header .= "<li class='dropdown'>
+              <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Tools<span class='caret'></span></a>
               <ul class='dropdown-menu' role='menu'>
-                <li><a href='#'>Action</a></li>
-                <li><a href='#'>Another action</a></li>
-                <li><a href='#'>Something else here</a></li>
-                <li class='divider'></li>
-                <li class='dropdown-header'>Nav header</li>
-                <li><a href='#'>Separated link</a></li>
-                <li><a href='#'>One more separated link</a></li>
+                <li><a href='".str_repeat('../',$cssRelative)."meal/'>Random Meal</a></li>
+                <li><a href='".str_repeat('../',$cssRelative)."quick/'>Quick Dishes</a></li>
               </ul>
-            </li-->
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

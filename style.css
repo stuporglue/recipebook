@@ -23,7 +23,7 @@ ul {
 
 
 body {
-    background-image: url('http://eatmoore.com/background_md_light.png');
+    background-image: url('../img/background_md_light.png');
 }
 
 body.breads{
@@ -65,3 +65,17 @@ body.soupsalad{
 body.meal .container .container {
     width: calc(100% - 15px)
 } 
+
+.quick:after {
+    content: " "url('../img/timer_sm.png');
+}
+
+
+h1.quick:after {
+    content: " "url('../img/timer_lg.png');
+}
+
+ul.recipelist {
+    list-style-type: none;
+    padding-left: 0;
+}

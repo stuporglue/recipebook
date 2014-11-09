@@ -1,6 +1,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
+    RewriteRule ^quick/(.*) ./quick.php?id=$1 
     RewriteRule ^meal/(.*) ./meal.php?id=$1 
     RewriteRule ^ingredients/(.*) ./ingredients.php?id=$1 
     RewriteRule recipe/(.*)/.* recipe.php?id=$1 
