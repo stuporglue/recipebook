@@ -15,8 +15,9 @@ class Ingredients {
     static function quantityToString($unit){
         // http://symbolcodes.tlt.psu.edu/bylanguage/mathchart.html#fractions
         $whole = (int)$unit;
-        $whole = ($whole === 0 ? '' : $whole);
-        $part = fmod($unit,1);
+        $whole = ($whole === 0 ? '' : $whole . ' ');
+        $part = round(fmod($unit,1) * 4) / 4;
+
         switch($part){
         case 0:
             $part = '';
@@ -36,6 +37,9 @@ class Ingredients {
         case 0.75:
             $part = '&frac34;';
             break;
+        case 1: 
+            $whole++;
+            $part = '';
         }
 
         $str = $whole . $part;
@@ -45,33 +49,51 @@ class Ingredients {
     static function combine($in){
         $tmp = Array();
         foreach($in as $ingredient){
-            $baseU = Ingredients::makeBaseUnit($ingredient['quantity'],$ingredient['unit']);
-            if(!isset($tmp[$ingredient['ingredient']])){
-                $tmp[$ingredient['ingredient']] = Array(
+            $baseU = Ingredients::makeBaseUnit($ingredient);
+            $id_name = "{$ingredient['ingredient']}_{$ingredient['base_unit']}";
+            if(!isset($tmp[$id_name])){
+                $tmp[$id_name] = Array(
                         'ingredient' => $ingredient['ingredient'],
                         'quantity' => $baseU['quant'],
                         'unit' => $baseU['unit'],
                         'abbreviation' => $baseU['unit']
                     );
             }else{
-                $tmp[$ingredient['ingredient']]['quantity'] += $baseU['quant'];
+                $tmp[$id_name]['quantity'] += $baseU['quant'];
             }
         }
 
-        // Convert units back to human units
+        foreach($tmp as $name => $ingredient){
+            $humanU = Ingredients::makeHumanUnit($ingredient['quantity'],$ingredient['count']);
+            $tmp[$name]['unit'] = $humanU['unit'];
+            $tmp[$name]['quantity'] = $humanU['quant'];
+            $tmp[$name]['abbreviation'] = $humanU['quant'];
+        }
+
         // sort by name 
         ksort($tmp);
         return array_values($tmp);
     }
 
-    static function makeBaseUnit($quant,$unit){
-        return Array(
-            'quant' => $quant,
-            'unit' => $unit
+    static function makeBaseUnit($ingredient){
+        $unit = getUnit($ingredient['base_unit']);
+        $ret = Array(
+            'quant' => $ingredient['quantity'] * (isset($ingredient['base_count']) ? $ingredient['base_count'] : 1),
+            'unit' => $unit['name']
         );
+
+        return $ret;
     }
 
     static function makeHumanUnit($quant,$unit){
+
+        if($unit == 'milligram'){
+            // make this number into tidy pounds, ounces
+        }else if($unit == 'milliliter'){
+            // make this into quarts, pints, cups, tablespoons, teaspoons
+        }
+
+
         return Array(
             'quant' => $quant,
             'unit' => $unit

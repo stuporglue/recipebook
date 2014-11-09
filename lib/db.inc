@@ -49,3 +49,8 @@ function getMealIds(){
 
     return $rows;
 }
+
+function getUnit($id){
+    $res = pg_query_params("SELECT * FROM units WHERE id=$1",Array($id));
+    return pg_fetch_assoc($res);
+}
