@@ -8,7 +8,7 @@ $category = getCategory($_GET['id']);
 print "<h1>" . htmlentities($category['label']) . "</h1>";
         $res = getAllFromCategory($_GET['id']);
         while($row = pg_fetch_assoc($res)){
-        print "<a href='../recipe/{$row['id']}/" . urlencode($row['name']) . "'>{$row['name']}</a><br>";
+        print "<a href='../recipe/{$row['id']}/" . urlencode($row['name']) . "' alt='{$row['name']}'>{$row['name']}</a><br>";
         }
 ?>
 </div>

@@ -1,6 +1,7 @@
 <?php
 require_once('db.inc');
 require_once('parsedown/Parsedown.php');
+require_once('lib/ingredients.php');
 
 class recipe {
     function __construct($id){
@@ -27,7 +28,7 @@ class recipe {
         while($row = pg_fetch_assoc($res)){
             $this->ingredients[] = $row;
         }
-            return $this->ingredients;
+        return $this->ingredients;
     }
 
     function getSubrecipes(){
@@ -53,47 +54,17 @@ class recipe {
         if(!is_null($subname)){
             $ret .= "<h3>$subname</h3>";
         }
-        $ret .= "<ul>";
-        foreach($this->ingredients as $ingredient){
-            $ingredient['ingredient'] = str_replace(' ,',',',$ingredient['ingredient']);
-            $ret .= "<li>" . $this->quantityToString($ingredient['quantity']) . " <span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span> {$ingredient['ingredient']}</li>";
-        }
-        $ret .= "</ul></div>";
+        $ret .= Ingredients::ingredientString($this->ingredients);
+        $ret .= "</div>";
         return $ret;
-    }
-
-    function quantityToString($unit){
-        // http://symbolcodes.tlt.psu.edu/bylanguage/mathchart.html#fractions
-        $whole = (int)$unit;
-        $whole = ($whole === 0 ? '' : $whole);
-        $part = fmod($unit,1);
-        switch($part){
-        case 0:
-            $part = '';
-            break;
-        case 0.25:
-            $part = '&frac14;';
-            break;
-        case 0.33:
-            $part = '&#x2153;';
-            break;
-        case 0.5:
-            $part = '&frac12;';
-            break;
-        case 0.66: 
-            $part = '&#8532;';
-            break;
-        case 0.75:
-            $part = '&frac34;';
-            break;
-        }
-
-        $str = $whole . $part;
-        return $str;
     }
 
     function __toString(){
         return print_r($this);
+    }
+
+    function getLink(){
+        return "recipe/{$this->id}/" . urlencode($this->name);     
     }
 
     function directions(){

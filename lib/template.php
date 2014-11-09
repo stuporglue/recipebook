@@ -11,7 +11,7 @@ $header = "<!DOCTYPE html>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <meta name='description' content=''>
     <meta name='author' content=''>
-    <link rel='icon' href='../../favicon.ico'>
+    <link rel='icon' href='". str_repeat('../',$cssRelative) . "favicon.png'>
 
     <title>Eat Moore!</title>
 
@@ -33,7 +33,7 @@ $header = "<!DOCTYPE html>
     <![endif]-->
   </head>
 
-  <body role='document'>
+  <body role='document' class='$activeCat'>
 
     <!-- Fixed navbar -->
     <nav class='navbar navbar-inverse navbar-fixed-top' role='navigation'>
@@ -45,15 +45,17 @@ $header = "<!DOCTYPE html>
             <span class='icon-bar'></span>
             <span class='icon-bar'></span>
           </button>
-          <a class='navbar-brand' href='#'>Eat Moore!</a>
+          <a class='navbar-brand' href='".str_repeat('../',$cssRelative)."'>Eat Moore!</a>
         </div>
         <div id='navbar' class='navbar-collapse collapse'>
           <ul class='nav navbar-nav'>
             <li class='".($activeCat == 'home' ? 'active' : '')."'><a href='". str_repeat('../',$cssRelative)."'>Home</a></li>";
 
             foreach(getCategories() as $cat){
-                $header .= "<li class='".($activeCat == $cat['name'] ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."category/{$cat['name']}'>" . htmlentities($cat['label']) . "</a></li>";
+                $header .= "<li class='".($activeCat == $cat['name'] ? 'active' : '')." {$cat['name']}'><a href='".str_repeat('../',$cssRelative)."category/{$cat['name']}'>" . htmlentities($cat['label']) . "</a></li>";
             }
+
+            // $header .= "<li class='".($activeCat == 'meal' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."meal/'>Meal?</a></li>";
 
             $header .= "<!-- li class='dropdown'>
               <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Dropdown <span class='caret'></span></a>

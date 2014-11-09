@@ -15,7 +15,14 @@ function getAllFromCategory($cat){
 }
 
 function getCategories(){
-    $res = pg_query_params('SELECT *,COALESCE(label,name) AS label FROM categories',Array());
+    $res = pg_query_params('SELECT DISTINCT 
+        categories.*,
+        COALESCE(categories.label,categories.name) AS label
+        FROM
+        categories, recipes
+        WHERE categories.id=recipes.category
+         AND (hide=false OR hide IS NULL)
+         ORDER BY COALESCE(categories.label,categories.name)',Array());
     $rows = Array();
     while($row = pg_fetch_assoc($res)){
         $rows[] = $row; 
@@ -27,4 +34,18 @@ function getCategories(){
 function getCategory($cat) {
     $res = pg_query_params('SELECT *,COALESCE(label,name) AS label FROM categories WHERE name=$1',Array($cat));
     return pg_fetch_assoc($res);
+}
+
+function getMealIds(){
+    $res = pg_query_params('SELECT DISTINCT ON (category) id
+        FROM recipes
+        WHERE hide=false
+        ORDER BY category,RANDOM()',Array());
+
+    $rows = Array();
+    while($row = pg_fetch_assoc($res)){
+        $rows[] = $row['id'];
+    }
+
+    return $rows;
 }

@@ -1,7 +1,12 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
+    RewriteRule ^meal/(.*) ./meal.php?id=$1 
+    RewriteRule ^ingredients/(.*) ./ingredients.php?id=$1 
     RewriteRule recipe/(.*)/.* recipe.php?id=$1 
     RewriteRule category/(.*) category.php?id=$1 
+    RewriteRule ^meal$ meal/ [R=301,L]
+    RewriteRule ^ingredients$ ingredients/ [R=301,L]
 </IfModule>
 
 AddDefaultCharset utf-8
