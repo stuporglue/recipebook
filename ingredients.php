@@ -13,7 +13,6 @@ if(count($ids) == 0){
 }
 printHeader("Shopping List",'ingredients',$depth);
 
-
 $names = Array();
 $links = Array();
 $ingredients = Array();

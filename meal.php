@@ -47,14 +47,16 @@ foreach($ids as $recipeId){
       </div>
 </div>
 
-<h2>Directions</h2>
-<div class='instructions main'>
-    <?=$r->directions()?>
-</div>
+<div class='container'>
+    <h3>Directions</h3>
+    <div class='instructions main'>
+        <?=$r->directions()?>
+    </div>
 <?php
     foreach($r->subrecipes as $subname => $sub){
         print "<div class='instructions sub'><h3>$subname</h3>{$sub->directions()}</div>";
     }
+print "</div>";
 
 }
 

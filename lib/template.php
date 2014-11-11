@@ -13,7 +13,13 @@ $header = "<!DOCTYPE html>
     <meta name='author' content=''>
     <link rel='icon' href='". str_repeat('../img/',$cssRelative) . "favicon.png'>
 
-    <title>Eat Moore!</title>
+    <title>Eat Moore!";
+
+    if($title !== 'Eat Moore!'){
+        $header .= " | $title";
+    }
+    
+    $header .= "</title>
 
         <!-- Latest compiled and minified CSS -->
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css'>
@@ -57,11 +63,12 @@ $header = "<!DOCTYPE html>
 
             // $header .= "<li class='".($activeCat == 'meal' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."meal/'>Meal?</a></li>";
 
-            $header .= "<li class='dropdown'>
+            $header .= "<li class='dropdown ".(in_array($activeCat,Array('meal','quick','tips')) ? 'active' : '')."'>
               <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Tools<span class='caret'></span></a>
               <ul class='dropdown-menu' role='menu'>
-                <li><a href='".str_repeat('../',$cssRelative)."meal/'>Random Meal</a></li>
-                <li><a href='".str_repeat('../',$cssRelative)."quick/'>Quick Dishes</a></li>
+                <li class='".($activeCat == 'meal' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."meal/'>Random Meal</a></li>
+                <li class='".($activeCat == 'quick' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."quick/'>Quick Dishes</a></li>
+                <li class='".($activeCat == 'tips' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."tips/'>Secret Tips</a></li>
               </ul>
             </li>
           </ul>

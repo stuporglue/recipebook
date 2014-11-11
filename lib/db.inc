@@ -14,6 +14,11 @@ function getAllFromCategory($cat){
     return $res;
 }
 
+function getQuick(){
+    $res = pg_query_params('SELECT r.*,c.name AS category,c.label as catlabel FROM recipes r,categories c WHERE ("hide"=false OR "hide" IS NULL) AND r.category=c.id AND r.quick=\'t\' ORDER BY c.name,r.name',Array());
+    return $res;
+}
+
 function getCategories(){
     $res = pg_query_params('SELECT DISTINCT 
         categories.*,

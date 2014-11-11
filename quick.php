@@ -1,20 +1,30 @@
 <?php
 require_once('lib/template.php');
-printHeader($_GET['id'],$_GET['id'],2);
-$category = getCategory($_GET['id']);
+printHeader('Quick Recipes!','quick',2);
 ?>
 <div class="container">
+<h1 class='quick'>Quick Recipes!</h1>
+<p>Need something yummy in a jiffy? These quick recipes should do the trick. You can always look for the kitchen-timer icon next to the recipe name on any recipe category page, or come to this page for a list of just the fast recipes. </p>
 <?php
-print "<h1>Quick Recipes!</h1>";
-        //$res = getAllFromCategory($_GET['id']);
-        //print "<ul>";
-        //while($row = pg_fetch_assoc($res)){
-        //    print "<li class='".($row['quick'] == 't' ? 'quick' : '')."'><a href='../recipe/{$row['id']}/" . urlencode($row['name']) . "' alt='{$row['name']}'>{$row['name']}</a></li>";
-        //}
-        //print "</ul>";
-?>
-<p>This will have a list of recipes that are quick, separated by category</p>
-</div>
-<?php
+print "<ul>";
+
+$prevCat = '';
+$res = getQuick();
+while($row = pg_fetch_assoc($res)){
+    if($row['catlabel'] !== $prevCat){
+        if($prevCat !== ''){
+            print "</ul>";
+        }
+
+        $prevCat = $row['catlabel'];
+        print "<h2>" . htmlentities($prevCat) . "</h2>";
+        print "<ul>";
+    }
+
+    print "<li class='".($row['quick'] == 't' ? 'quick' : '')."'><a href='../recipe/{$row['id']}/" . urlencode($row['name']) . "' alt='{$row['name']}'>{$row['name']}</a></li>";
+}
+print "</ul>";
+
+print "</ul></div>";
+
 printFooter();
-?>

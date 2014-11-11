@@ -16,4 +16,3 @@ print "<h1>" . htmlentities($category['label']) . "</h1>";
 </div>
 <?php
 printFooter();
-?>

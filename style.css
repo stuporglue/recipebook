@@ -66,7 +66,7 @@ body.meal .container .container {
     width: calc(100% - 15px)
 } 
 
-.quick:after {
+li.quick:after {
     content: " "url('../img/timer_sm.png');
 }
 
