@@ -48,7 +48,8 @@ if(count($names) == 1){
 <?php
 
 $ingredients = Ingredients::combine($ingredients);
-print Ingredients::ingredientString($ingredients);
+print_r($ingredients);
+// print Ingredients::ingredientString($ingredients);
 
 print "</div></div>";
 printFooter();

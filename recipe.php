@@ -31,10 +31,10 @@ $cols = 12 / $cols;
     <div class='instructions main'>
         <?=$r->directions()?>
     </div>
-</div>
 <?php
 foreach($r->subrecipes as $subname => $sub){
     print "<div class='instructions sub'><h3>$subname</h3>{$sub->directions()}</div>";
 }
+print "</div>";
 
 printFooter();

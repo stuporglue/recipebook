@@ -62,7 +62,7 @@ body.soupsalad{
     border-left: 1px solid #ccc;
 }
 
-body.meal .container .container {
+body .container .container {
     width: calc(100% - 15px)
 } 
 

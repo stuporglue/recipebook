@@ -64,7 +64,8 @@ class Ingredients {
         }
 
         foreach($tmp as $name => $ingredient){
-            $humanU = Ingredients::makeHumanUnit($ingredient['quantity'],$ingredient['count']);
+            print_r($ingredient);
+            $humanU = Ingredients::makeHumanUnit($ingredient['quantity'],$ingredient['unit']);
             $tmp[$name]['unit'] = $humanU['unit'];
             $tmp[$name]['quantity'] = $humanU['quant'];
             $tmp[$name]['abbreviation'] = $humanU['quant'];
@@ -91,6 +92,8 @@ class Ingredients {
             // make this number into tidy pounds, ounces
         }else if($unit == 'milliliter'){
             // make this into quarts, pints, cups, tablespoons, teaspoons
+        }else{
+            print "UNIT WAS $unit\n";
         }
 
 
