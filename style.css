@@ -1,24 +1,24 @@
 /*.ingredients {
-    display: inline-block;
-    vertical-align: top;
+display: inline-block;
+vertical-align: top;
 }
 
-.ingredients.sub {
+    .ingredients.sub {
     margin-left: 100px;
 }
 
-ul {
+    ul {
     padding-left: 10px;
     margin-top: 0;
 }
-.sub h3 {
+    .sub h3 {
     margin-top: 0;
 }
 
-.fraction {
+    .fraction {
     font-size: smaller;
 }
-    */
+ */
 
 
 
@@ -66,16 +66,45 @@ body .container .container {
     width: calc(100% - 15px)
 } 
 
+/*
 li.quick:after {
     content: " "url('../img/timer_sm.png');
 }
 
+li a.quick:after {
+    content: " "url('../img/timer_sm.png');
+}
 
 h1.quick:after {
     content: " "url('../img/timer_lg.png');
 }
+    */
 
-ul.recipelist {
+ul.recipelist,ul.ingredientlist {
     list-style-type: none;
     padding-left: 0;
 }
+
+
+.smallsearch {
+    margin: 0px;
+    padding: 0px;
+    display: block;
+    margin-right: 65px;
+    overflow: hidden;
+    position: relative;
+    top: 6px;
+}
+
+.ingredient {
+    text-transform: capitalize;
+}
+
+*[id]:before { 
+    display: block; 
+    content: " "; 
+    margin-top: -100px; 
+    height: 100px; 
+    visibility: hidden; 
+}
+

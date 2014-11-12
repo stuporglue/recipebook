@@ -1,14 +1,16 @@
 <?php
 require_once('lib/template.php');
-printHeader('Quick Recipes!','quick',2);
+printHeader('Quick Recipes!','quick',1);
 ?>
 <div class="container">
-<h1 class='quick'>Quick Recipes! <?=$quickicon?></h1>
-<p>Need something yummy in a jiffy? These quick recipes should do the trick. You can always look for the kitchen-timer icon next to the recipe name on any recipe category page, or come to this page for a list of just the fast recipes. </p>
+<h1 class='quick'>Caroline's Favorite Recipes!<?=$favoriteicon?></h1>
+<p>
+All of the recipes here are <em>good</em>, but these are the best of the best, Caroline's very favorites.
+</p>
 <?php
 
 $prevCat = '';
-$res = getQuick();
+$res = getFavorites();
 while($row = pg_fetch_assoc($res)){
     if($row['catlabel'] !== $prevCat){
         if($prevCat !== ''){

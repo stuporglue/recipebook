@@ -1,55 +1,41 @@
 <?php
-require_once('lib/recipe.php');
 require_once('lib/template.php');
-$ids = Array();
-if(isset($_GET['id']) && strlen($_GET['id']) > 0){
-    $depth = 2;
-    $ids = explode(',',$_GET['id']);
-}
-
-if(count($ids) == 0){
-    $depth = 1;
-    $ids = getMealIds();
-}
-printHeader("Shopping List",'ingredients',$depth);
-
-$names = Array();
-$links = Array();
-$ingredients = Array();
-foreach($ids as $recipeId){
-    $r = new recipe($recipeId);
-    $names[] = $r->name;
-    $links[] = '../' . $r->getLink();
-    $ingredients = array_merge($ingredients,$r->getIngredients());
-}
-
+printHeader("Ingredients",'ingredients',1);
 ?>
 <div class='jumbotron'>
-<h1>Shopping List!</h1>
+<h1>Ingredients!</h1>
 <p>
-You can <a href='<?php print implode(',',$ids)?>'>bookmark this list</a>.
-</p>
-<p>
-Here's a shopping list for all the ingredients needed for <?php 
-
-if(count($names) == 1){
-    print "<a href='../{$links[0]}' alt='{$names[0]}'>{$names[0]}</a>";
-}else{
-    $last = array_pop($names);
-    $lastlink = array_pop($links);
-    foreach($links as $k => $name){
-        print "<a href='../{$links[$k]}' alt='{$names[$k]}'>{$names[$k]}</a>, ";
-    }
-    print " and <a href='../$lastlink' alt='$last'>$last</a>";
-}
-?>.
+Trying to use up the last of something? Need to satisfy your craving for something? 
+Use this list to find all recipes that use a specific ingredient.
 </p>
 </div>
+<div class='container'>
 <?php
+    $res = getAllIngredients();
+    $list = '';
+    $prevChar = '';
+    $links = Array();
+    while($row = pg_fetch_assoc($res)){
+        $firstChar = ucfirst(substr($row['ingredient'],0,1));
+        if($firstChar != $prevChar){
+            if($prevChar != ''){
+                print "</ul>";
+            }
+            $prevChar = $firstChar;
+            $list .= "<h2>$prevChar</h2>";
+            $list .= "<ul id='$firstChar' class='ingredientlist'>";
+            $links[] = "<a href='#{$prevChar}'>$prevChar</a>";
+        }
+        $list .= "<li><a href='../ingredient/". urlencode($row['ingredient']) . "' alt='" . htmlentities($row['ingredient']) . "' class='ingredient'>" . htmlentities($row['ingredient']) . "</a></li>";
+    }
+    $list .= "</ul>";
 
-$ingredients = Ingredients::combine($ingredients);
-print_r($ingredients);
-// print Ingredients::ingredientString($ingredients);
+    print "<div class='links'>" . implode(' | ',$links) . "</div>";
 
+    print $list;
+?>
+</ul>
+</div>
+<?php
 print "</div></div>";
 printFooter();

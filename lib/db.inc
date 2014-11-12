@@ -19,6 +19,12 @@ function getQuick(){
     return $res;
 }
 
+function getFavorite(){
+    $res = pg_query_params('SELECT r.*,c.name AS category,c.label as catlabel FROM recipes r,categories c WHERE ("hide"=false OR "hide" IS NULL) AND r.category=c.id AND r.favorite=\'t\' ORDER BY c.name,r.name',Array());
+    return $res;
+}
+
+
 function getCategories(){
     $res = pg_query_params('SELECT DISTINCT 
         categories.*,
@@ -58,4 +64,21 @@ function getMealIds(){
 function getUnit($id){
     $res = pg_query_params("SELECT * FROM units WHERE id=$1",Array($id));
     return pg_fetch_assoc($res);
+}
+
+function getAllIngredients(){
+    $res = pg_query_params("SELECT id,COALESCE(plural,name) AS ingredient FROM ingredients ORDER BY COALESCE(plural,name)",Array());
+    return $res;
+}
+
+function getRecipesByIngredient($ingredientName){
+    $res = pg_query_params('
+        SELECT r.*,c.name AS category,c.label as catlabel FROM recipes r, categories c, pretty_ingredients pi
+        WHERE
+        pi.name=$1 AND
+        pi.recipe_id=r.id AND
+        c.id=r.category
+        ORDER BY c.name,r.name
+        ',Array($ingredientName));
+    return $res;
 }

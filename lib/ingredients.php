@@ -2,11 +2,12 @@
 
 class Ingredients {
 
-    static function ingredientString($ingredients){
+    static function ingredientString($ingredients,$urlDepth = 1){
         $ret = "<ul>";
         foreach($ingredients as $ingredient){
-            $ingredient['ingredient'] = str_replace(' ,',',',$ingredient['ingredient']);
-            $ret .= "<li>" . Ingredients::quantityToString($ingredient['quantity']) . " <span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span> {$ingredient['ingredient']}</li>";
+            $li = "<li>" . Ingredients::quantityToString($ingredient['quantity']) . " <span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span> {$ingredient['premodifier']} <a href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient'>" . htmlentities($ingredient['name']) . "</a> {$ingredient['postmodifier']}</li>";
+            $li = str_replace(' ,',',',$li);
+            $ret .= $li;
         }
         $ret .= "</ul>";
         return $ret;

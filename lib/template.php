@@ -1,7 +1,12 @@
 <?php
 require_once('lib/db.inc');
 
+global $quickicon,$favoriteicon;
+$quickicon = " <span class='glyphicon glyphicon-time' title='Ready in 30 minutes or less!'></span>";
+$favoriteicon = " <span class='glyphicon glyphicon-heart' title='A Caroline favorite!'></span>";
+
 function printHeader($title,$activeCat,$cssRelative = 0){
+    global $quickicon,$favoriteicon;
 
 $header = "<!DOCTYPE html>
 <html lang='en'>
@@ -52,26 +57,47 @@ $header = "<!DOCTYPE html>
             <span class='icon-bar'></span>
           </button>
           <a class='navbar-brand' href='".str_repeat('../',$cssRelative)."'>Eat Moore!</a>
+            <form class='smallsearch hidden-lg hidden-md hidden-sm navbar-form' role='search'>
+                <div class='form-group has-feedback'>
+                    <input id='searchbox' type='text' placeholder='Search' class='form-control'>
+                    <span id='searchicon' class='glyphicon glyphicon-search form-control-feedback'></span>
+                </div>
+            </form>
         </div>
         <div id='navbar' class='navbar-collapse collapse'>
-          <ul class='nav navbar-nav'>
-            <li class='".($activeCat == 'home' ? 'active' : '')."'><a href='". str_repeat('../',$cssRelative)."'>Home</a></li>";
+          <ul class='nav navbar-nav'>";
+            $header .= "<li class='".($activeCat == 'home' ? 'active' : '')."'><a href='". str_repeat('../',$cssRelative)."'>Home</a></li>";
 
+            $catsMenu = "<ul class='dropdown-menu' role='menu'>";
+            $catsClasses = Array();
             foreach(getCategories() as $cat){
-                $header .= "<li class='".($activeCat == $cat['name'] ? 'active' : '')." {$cat['name']}'><a href='".str_repeat('../',$cssRelative)."category/{$cat['name']}'>" . htmlentities($cat['label']) . "</a></li>";
+                $catsMenu .= "<li class='".($activeCat == $cat['name'] ? 'active' : '')." {$cat['name']}'><a href='".str_repeat('../',$cssRelative)."category/{$cat['name']}'>" . htmlentities($cat['label']) . "</a></li>";
+                $catsClasses[] = $cat['name'];
             }
+            $catsMenu .= "</ul>";
+
+            $header .= "<li class='dropdown ". (in_array($activeCat,$catsClasses) ? 'active' : '') . "'>";
+            $header .= "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Recipes<span class='caret'></span></a>" . $catsMenu . "</li>";
 
             // $header .= "<li class='".($activeCat == 'meal' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."meal/'>Meal?</a></li>";
 
-            $header .= "<li class='dropdown ".(in_array($activeCat,Array('meal','quick','tips')) ? 'active' : '')."'>
+            $header .= "<li class='dropdown ".(in_array($activeCat,Array('meal','quick','tips','ingredients')) ? 'active' : '')."'>
               <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Tools<span class='caret'></span></a>
               <ul class='dropdown-menu' role='menu'>
                 <li class='".($activeCat == 'meal' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."meal/'>Random Meal</a></li>
-                <li class='".($activeCat == 'quick' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."quick/'>Quick Dishes</a></li>
+                <li class='".($activeCat == 'quick' ? 'active' : '')."'><a class='quick' href='".str_repeat('../',$cssRelative)."quick/'>Quick Dishes $quickicon</a></li>
+                <li class='".($activeCat == 'favorite' ? 'active' : '')."'><a class='favorite' href='".str_repeat('../',$cssRelative)."favorites/'>Favorite Dishes $favoriteicon</a></li>
                 <li class='".($activeCat == 'tips' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."tips/'>Secret Tips</a></li>
+                <li class='".($activeCat == 'ingredients' ? 'active' : '')."'><a href='".str_repeat('../',$cssRelative)."ingredients/'>Ingredients</a></li>
               </ul>
             </li>
           </ul>
+            <form class='hidden-xs navbar-form navbar-right' role='search'>
+                <div class='form-group has-feedback'>
+                    <input id='searchbox' type='text' placeholder='Search' class='form-control'>
+                    <span id='searchicon' class='glyphicon glyphicon-search form-control-feedback'></span>
+                </div>
+            </form>
         </div><!--/.nav-collapse -->
       </div>
       </nav>

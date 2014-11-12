@@ -16,10 +16,11 @@ printHeader("Meal planner",'meal',$depth);
 <div class='jumbotron'>
 <h1>Here's Your Random Meal!</h1>
 <p>
-You can <a href='<?php print implode(',',$ids)?>'>bookmark this meal</a> or <a href='./'>generate a new meal</a>. There's no guarantee that this is a good combo, but it might be!
+This tool picks one recipe from each category so you can make a 100% Caroline meal.
+There's no guarantee that this is a good combo, but it might be!
 </p>
 <p>
-TODO: Show shopping list with quantities
+You can <a href='<?php print implode(',',$ids)?>'>bookmark this meal</a> or <a href='./'>generate a new meal</a>. 
 </p>
 </div>
 <?php

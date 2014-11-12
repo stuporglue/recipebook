@@ -9,7 +9,16 @@ $cols = 12 / $cols;
 ?>
 
 <div class="container <?=$r->category?>">
-    <h1 class='<?php print ($r->quick === 't' ? 'quick' : ''); ?>'><?=$r->name?></h1>
+    <h1 class='<?php print ($r->quick === 't' ? 'quick' : ''); ?>'><?php 
+    
+print $r->name;
+if($r->quick == 't'){
+    print $quickicon;
+}
+if($r->favorite == 't'){
+    print $favoriteicon;
+}
+?></h1>
     <!-- Example row of columns -->
     <div class="row">
     <?php
