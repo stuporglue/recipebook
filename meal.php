@@ -3,15 +3,13 @@ require_once('lib/recipe.php');
 require_once('lib/template.php');
 $ids = Array();
 if(isset($_GET['id']) && strlen($_GET['id']) > 0){
-    $depth = 2;
     $ids = explode(',',$_GET['id']);
 }
 
 if(count($ids) == 0){
-    $depth = 1;
     $ids = getMealIds();
 }
-printHeader("Meal planner",'meal',$depth);
+printHeader("Meal planner",'meal');
 
 $menu = '';
 $cats = Array();

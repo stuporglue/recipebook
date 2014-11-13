@@ -1,6 +1,6 @@
 <?php
 require_once('lib/template.php');
-printHeader(implode(' ',array_map('ucfirst',explode(' ',$_GET['id']))),'',2);
+printHeader(implode(' ',array_map('ucfirst',explode(' ',$_GET['id']))),'');
 ?>
 <div class="jumbotron">
 <?php

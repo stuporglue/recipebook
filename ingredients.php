@@ -1,6 +1,6 @@
 <?php
 require_once('lib/template.php');
-printHeader("Ingredients",'ingredients',1);
+printHeader("Ingredients",'ingredients');
 ?>
 <div class='jumbotron'>
 <h1>Ingredients!</h1>

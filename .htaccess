@@ -1,16 +1,23 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    RewriteRule ^quick/(.*) ./quick.php?id=$1 
-    RewriteRule ^favorites/(.*) ./favorites.php?id=$1 
-    RewriteRule ^tips/(.*) ./tips.php?id=$1 
-    RewriteRule ^meal/(.*) ./meal.php?id=$1 
-    RewriteRule ^ingredients/(.*) ./ingredients.php?id=$1 
-    RewriteRule recipe/(.*) recipe.php?id=$1 
-    RewriteRule category/(.*) category.php?id=$1 
-    RewriteRule ingredient/(.*) ingredient.php?id=$1 
-    RewriteRule ^meal$ meal/ [R=301,L]
-    RewriteRule ^ingredients$ ingredients/ [R=301,L]
+
+    # Strip all trailing slashes
+    RewriteRule ^(.+)/$ $1 [R=301,L]
+
+
+
+
+    RewriteRule ^quick$ ./quick.php?id=$1 
+    RewriteRule ^favorites$ ./favorites.php?id=$1 
+    RewriteRule ^tips$ ./tips.php?id=$1 
+    RewriteRule ^meal$ ./meal.php?id=$1 
+    RewriteRule ^ingredients$ ./ingredients.php?id=$1 
+
+    RewriteRule ^meal/(.*) ./meal.php?id=$1&d=2
+    RewriteRule recipe/(.*) recipe.php?id=$1&d=2 
+    RewriteRule category/(.*) category.php?id=$1&d=2
+    RewriteRule ingredient/(.*) ingredient.php?id=$1&d=2
 </IfModule>
 
 AddDefaultCharset utf-8

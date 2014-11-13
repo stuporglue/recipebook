@@ -1,6 +1,6 @@
 <?php
 require_once('lib/template.php');
-printHeader('Quick Recipes!','quick',2);
+printHeader('Quick Recipes!','quick');
 ?>
 <div class="container">
 <h1 class='quick'>Quick Recipes! <?=$quickicon?></h1>

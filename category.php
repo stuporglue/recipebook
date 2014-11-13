@@ -1,7 +1,7 @@
 <?php
 require_once('lib/template.php');
 $category = getCategory($_GET['id']);
-printHeader($category['label'],$_GET['id'],2);
+printHeader($category['label'],$_GET['id']);
 ?>
 <div class="container">
 <?php

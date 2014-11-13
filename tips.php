@@ -1,7 +1,7 @@
 <?php
 require_once('lib/template.php');
 
-printHeader("Secret Tips!","tips",1);
+printHeader("Secret Tips!","tips");
 ?>
 
 <div class="jumbotron">

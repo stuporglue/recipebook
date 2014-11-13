@@ -2,7 +2,7 @@
 require_once('lib/recipe.php');
 require_once('lib/template.php');
 $r = new recipe($_GET['id']);
-printHeader($r->name,$r->category,2);
+printHeader($r->name,$r->category);
 
 $cols = count($r->subrecipes) + 1;
 $cols = 12 / $cols;
