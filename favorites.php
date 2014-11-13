@@ -2,11 +2,13 @@
 require_once('lib/template.php');
 printHeader('Favorite Recipes!','favorite');
 ?>
-<div class="container">
+<div class="jumbotron">
 <h1>Caroline's Favorite Recipes!<?=$favoriteicon?></h1>
 <p>
 All of the recipes here are <em>good</em>, but these are the best of the best, Caroline's very favorites.
 </p>
+</div>
+<div class="container">
 <?php
 
 $prevCat = '';

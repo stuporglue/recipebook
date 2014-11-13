@@ -3,9 +3,10 @@ require_once('lib/template.php');
 $category = getCategory($_GET['id']);
 printHeader($category['label'],$_GET['id']);
 ?>
-<div class="container">
+<div class="jumbotron">
 <?php
 print "<h1>" . htmlentities($category['label']) . "</h1>";
+print "</div><div class='container'>";
         $res = getAllFromCategory($_GET['id']);
         print "<ul class='recipelist'>";
         while($row = pg_fetch_assoc($res)){

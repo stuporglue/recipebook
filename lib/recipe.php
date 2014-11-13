@@ -49,14 +49,38 @@ class recipe {
     }
 
     function ingredientString($subname=NULL){
-        $moreclasses = (is_null($subname) ? '' : ' sub');
-        $ret = "<div class='ingredients$moreclasses'>";
-        if(!is_null($subname)){
+        $retAr = Array();
+        if(count($this->ingredients) === 0){
+            $retAr[] = ''; // empty ingredients list
+        }else if(is_null($subname)){
+            $ret = "<div class='ingredients'>";
+            $ret .= "<h2>Ingredients</h2>";
+            $ret .= Ingredients::ingredientString($this->ingredients);
+            $ret .= "</div>";
+            $retAr[] = $ret;
+        }else{
+            $ret = "<div class='ingredients sub'>";
             $ret .= "<h3>$subname</h3>";
+            $ret .= Ingredients::ingredientString($this->ingredients);
+            $ret .= "</div>";
+            $retAr[] = $ret;
         }
-        $ret .= Ingredients::ingredientString($this->ingredients);
-        $ret .= "</div>";
-        return $ret;
+
+        foreach($this->subrecipes as $subn => $sub){
+            $retAr = array_merge($retAr,$sub->ingredientString($subn));
+        }
+
+        if(is_null($subname)){
+            $retAr = array_filter($retAr);
+            $retStr = '';
+            $cols = 12 / count($retAr);
+            foreach($retAr as $ing){
+                $retStr .= "<div class='col-md-$cols'>$ing</div>";
+            }
+            return $retStr;
+        }else{
+            return $retAr;
+        }
     }
 
     function __toString(){

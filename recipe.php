@@ -4,11 +4,9 @@ require_once('lib/template.php');
 $r = new recipe($_GET['id']);
 printHeader($r->name,$r->category);
 
-$cols = count($r->subrecipes) + 1;
-$cols = 12 / $cols;
 ?>
 
-<div class="container <?=$r->category?>">
+<div class="jumbotron <?=$r->category?>">
     <h1><?php 
 print $r->name;
 if($r->quick == 't'){
@@ -19,6 +17,10 @@ if($r->favorite == 't'){
 }
 ?></h1>
 <?php
+
+if(!is_null($r->about)){
+    print "<p>" . $r->about . "</p>";
+}
     
 $usedIn = $r->usedIn();
 if($usedIn !== FALSE){
@@ -30,19 +32,12 @@ if($usedIn !== FALSE){
     print "</ul>";
 }
 ?>
-
+</div>
+<div class='container'>
     <!-- Example row of columns -->
     <div class="row">
     <?php
-        print "<div class='col-md-$cols'>"; 
-        print "<h2>Ingredients</h2>";
         print $r->ingredientString();
-        print "</div>";
-    foreach($r->subrecipes as $subname => $sub){
-        print "<div class='col-md-$cols'>"; 
-        print $sub->ingredientString($subname);
-        print "</div>";
-    }
     ?>
     </div>
 </div>

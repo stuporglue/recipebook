@@ -2,9 +2,11 @@
 require_once('lib/template.php');
 printHeader('Quick Recipes!','quick');
 ?>
-<div class="container">
+<div class="jumbotron">
 <h1>Quick Recipes! <?=$quickicon?></h1>
 <p>Need something yummy in a jiffy? These quick recipes should do the trick. You can always look for the kitchen-timer icon next to the recipe name on any recipe category page, or come to this page for a list of just the fast recipes. </p>
+</div>
+<div class='container'>
 <?php
 
 $prevCat = '';
