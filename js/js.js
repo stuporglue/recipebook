@@ -5,7 +5,7 @@ var ta = $('.searchbox').typeahead({
 },
 {
     name: 'searcher',
-    displayKey: 'label',
+    displayKey: 'plainlabel',
     source: function(query,cb){
         $.getJSON(relpath + 'search.php?q=' + encodeURIComponent(query),cb); 
         $('.tt-dataset-searcher').scrollTop(0);
@@ -14,7 +14,7 @@ var ta = $('.searchbox').typeahead({
     templates: {
         empty: "<div class='empty-message'>This cook doesn't know what to make of that.</div>",
         // kind, label, search,url
-        suggestion: Handlebars.compile("<div class='searchsuggestion {{kind}}'><h2>{{{label}}}</h2><p class='wherefound'>{{{search}}}</p></div>")
+        suggestion: Handlebars.compile("<div class='searchsuggestion {{kind}}'><h2><span class='kind'></span>{{{label}}}</h2><p class='wherefound'>{{{search}}}</p></div>")
     }
 });
 $('.twitter-typeahead').css('display','block');

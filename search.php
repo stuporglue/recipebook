@@ -20,6 +20,7 @@ while($row = pg_fetch_assoc($res)){
     if(count($matches) > 0){
         $row['search'] = htmlentities($matches[1]) . "<em>" . htmlentities($matches[2]) . "</em>" . htmlentities($matches[3]);
     }
+    $row['plainlabel'] = $row['label'];
     preg_match("/(.*)({$_GET['q']})(.*)/i",$row['label'],$matches);
     if(count($matches) > 0){
         $row['label'] = htmlentities($matches[1]) . "<em>" . htmlentities($matches[2]) . "</em>" . htmlentities($matches[3]);

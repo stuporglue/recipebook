@@ -59,24 +59,39 @@ http://stackoverflow.com/questions/20198247/twitters-typeahead-js-suggestions-ar
 }
 
 .tt-dropdown-menu .wherefound em {
-   color: #555;
+    color: #555;
 }
 
-/* Add support/icons for kinds: searchsuggestion.(category|ingredient|recipe) */
-
-
-.searchsuggestion.recipe h2:before{
-    content: "R:";
+.searchsuggestion .kind {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px 3px 0;
+    vertical-align: top;
 }
 
-.searchsuggestion.category h2:before{
-    content: "C:";
+.searchsuggestion.recipe .kind {
+    background-image: url('../img/recipe_30.png');
 }
 
-.searchsuggestion.ingredient h2:before{
-    content: "I:";
+.searchsuggestion.category .kind {
+    background-image: url('../img/category_30.png');
 }
+
+.searchsuggestion.ingredient .kind {
+    background-image: url('../img/ingredient_30.png');
+}
+
+
+.searchsuggestion h2 {
+    vertical-align:top !important;
+}
+
 .searchsuggestion.category p {
+    display: none;
+}
+
+.searchsuggestion.ingredient p {
     display: none;
 }
 
