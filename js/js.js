@@ -28,3 +28,11 @@ $('.searchbox').bind('typeahead:selected', function(obj, datum, name) {
 });
 
 $('.typeahead').typeahead('val', '');
+$('.tt-dropdown-menu').css('max-height',$(window).height() - 50 + 'px')
+$(window).on('resize',function(){
+    var newh = $(window).height() - 50;
+    if(newh < 100){
+        newh = 100;
+    }
+    $('.tt-dropdown-menu').css('max-height',newh + 'px')
+});
