@@ -46,6 +46,7 @@ foreach($ids as $recipeId){
     $menu .=  "</div>";
 }
 
+    $relpath = (isset($_GET['d']) ? str_repeat('../',$_GET['d']) : '');
 
 ?>
 <div class='jumbotron'>
@@ -63,7 +64,7 @@ foreach($cats as $cat){
 ?>
 </ul>
 <p>
-You can <a href='<?php print implode(',',$ids)?>'>bookmark this meal</a> or <a href='./'>generate a new meal</a>. 
+You can <a href='<?php print "{$relpath}meal/" . implode(',',$ids)?>'>bookmark this meal</a> or <a href='./'>generate a new meal</a>. 
 </p>
 </div>
 <?php

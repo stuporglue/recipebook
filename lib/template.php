@@ -8,7 +8,7 @@ $favoriteicon = " <span class='glyphicon glyphicon-heart' title='A Caroline favo
 function printHeader($title,$activeCat){
     global $quickicon,$favoriteicon;
 
-    $relpath = (isset($_GET['d']) ? str_repeat('../',$_GET['d']) : 1);
+    $relpath = (isset($_GET['d']) ? str_repeat('../',$_GET['d']) : '');
 
 $header = "<!DOCTYPE html>
 <html lang='en'>
@@ -61,8 +61,8 @@ $header = "<!DOCTYPE html>
           <a class='navbar-brand' href='{$relpath}'>Eat Moore!</a>
             <form class='smallsearch hidden-lg hidden-md hidden-sm navbar-form' role='search'>
                 <div class='form-group has-feedback'>
-                    <input id='searchbox' type='text' placeholder='Search' class='form-control'>
-                    <span id='searchicon' class='glyphicon glyphicon-search form-control-feedback'></span>
+                    <input type='text' placeholder='Search' class='form-control searchbox'>
+                    <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
                 </div>
             </form>
         </div>
@@ -84,18 +84,18 @@ $header = "<!DOCTYPE html>
             $header .= "<li class='dropdown ".(in_array($activeCat,Array('meal','quick','tips','ingredients')) ? 'active' : '')."'>
               <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Tools<span class='caret'></span></a>
               <ul class='dropdown-menu' role='menu'>
-                <li class='".($activeCat == 'meal' ? 'active' : '')."'><a href='{$relpath}meal/'>Random Meal</a></li>
-                <li class='".($activeCat == 'quick' ? 'active' : '')."'><a class='quick' href='{$relpath}quick/'>Quick Dishes $quickicon</a></li>
-                <li class='".($activeCat == 'favorite' ? 'active' : '')."'><a class='favorite' href='{$relpath}favorites/'>Favorite Dishes $favoriteicon</a></li>
-                <li class='".($activeCat == 'tips' ? 'active' : '')."'><a href='{$relpath}tips/'>Secret Tips</a></li>
-                <li class='".($activeCat == 'ingredients' ? 'active' : '')."'><a href='{$relpath}ingredients/'>Ingredients</a></li>
+                <li class='".($activeCat == 'meal' ? 'active' : '')."'><a href='{$relpath}meal'>Random Meal</a></li>
+                <li class='".($activeCat == 'quick' ? 'active' : '')."'><a href='{$relpath}quick'>Quick Dishes $quickicon</a></li>
+                <li class='".($activeCat == 'favorite' ? 'active' : '')."'><a class='favorite' href='{$relpath}favorites'>Favorite Dishes $favoriteicon</a></li>
+                <li class='".($activeCat == 'tips' ? 'active' : '')."'><a href='{$relpath}tips'>Secret Tips</a></li>
+                <li class='".($activeCat == 'ingredients' ? 'active' : '')."'><a href='{$relpath}ingredients'>Ingredients</a></li>
               </ul>
             </li>
           </ul>
             <form class='hidden-xs navbar-form navbar-right' role='search'>
                 <div class='form-group has-feedback'>
-                    <input id='searchbox' type='text' placeholder='Search' class='form-control'>
-                    <span id='searchicon' class='glyphicon glyphicon-search form-control-feedback'></span>
+                    <input type='text' placeholder='Search' class='form-control searchbox'>
+                    <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
                 </div>
             </form>
         </div><!--/.nav-collapse -->
@@ -112,17 +112,14 @@ function printFooter(){
     $relpath = (isset($_GET['d']) ? str_repeat('../',$_GET['d']) : 1);
 
     $footer = "
-    </div> <!-- /container -->
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    </div>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-    <!-- script src='../../assets/js/docs.min.js'></script -->
-    <!-- Latest compiled and minified JavaScript -->
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js'></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <!-- script src='../../assets/js/ie10-viewport-bug-workaround.js'></script-- >
-    <script src='{$relpath}/js/js.js'></script>
+    <script src='{$relpath}js/typeahead.bundle.min.js'></script>
+    <script>
+        var relpath = '$relpath';
+    </script>
+    <script src='{$relpath}js/js.js'></script>
   </body>
   </html>";
     print $footer;

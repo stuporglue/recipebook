@@ -82,3 +82,8 @@ function getRecipesByIngredient($ingredientName){
         ',Array($ingredientName));
     return $res;
 }
+
+function search($term){
+    $res = pg_query_params('SELECT * FROM search WHERE search ILIKE $1 ORDER BY label',Array('%' . $term . '%'));
+    return $res;
+}

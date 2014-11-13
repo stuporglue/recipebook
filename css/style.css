@@ -1,27 +1,3 @@
-/*.ingredients {
-display: inline-block;
-vertical-align: top;
-}
-
-    .ingredients.sub {
-    margin-left: 100px;
-}
-
-    ul {
-    padding-left: 10px;
-    margin-top: 0;
-}
-    .sub h3 {
-    margin-top: 0;
-}
-
-    .fraction {
-    font-size: smaller;
-}
- */
-
-
-
 body {
     background-image: url('../img/background_md_light.png');
 }
@@ -88,8 +64,8 @@ ul.recipelist,ul.ingredientlist {
 *[id]:before { 
     display: block; 
     content: " "; 
-    margin-top: -100px; 
-    height: 100px; 
+    margin-top: -75px; 
+    height: 75px; 
     visibility: hidden; 
 }
 
