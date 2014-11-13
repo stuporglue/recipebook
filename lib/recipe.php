@@ -64,11 +64,26 @@ class recipe {
     }
 
     function getLink(){
-        return "recipe/{$this->id}/" . urlencode($this->name);     
+        return "recipe/" . urlencode($this->name);     
     }
 
     function directions(){
         $dir = preg_replace("|\s([0-9]+)/([0-9]+)\s|"," <span class='fraction'><sup>$1</sup>&frasl;<sub>$2</sub></span> ",$this->instructions);
         return $this->parsedown->text($dir);
+    }
+
+    function usedIn(){
+        global $favoriteicon,$quickicon;
+
+        $res = pg_query_params('SELECT r.name,r.quick,r.favorite FROM recpie_recipe rr, recipes r WHERE rr.parent=r.id AND rr.child=$1',Array($this->id));
+        $parents = Array();
+        while($row = pg_fetch_assoc($res)){
+            $parents[] = "<li><a href='../recipe/" . urlencode($row['name']) . "' alt='{$row['name']}'>{$row['name']}</a>".($row['quick'] == 't' ? $quickicon : '') . ($row['favorite'] == 't' ? $favoriteicon : '')."</li>";
+        }
+
+        if(count($parents) === 0){
+            return FALSE;
+        }
+        return $parents;
     }
 }

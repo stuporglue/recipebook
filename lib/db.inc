@@ -84,6 +84,6 @@ function getRecipesByIngredient($ingredientName){
 }
 
 function search($term){
-    $res = pg_query_params('SELECT * FROM search WHERE search ILIKE $1 ORDER BY label',Array('%' . $term . '%'));
+    $res = pg_query_params('SELECT * FROM search WHERE search ILIKE $1',Array('%' . $term . '%'));
     return $res;
 }

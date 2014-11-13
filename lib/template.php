@@ -38,6 +38,7 @@ $header = "<!DOCTYPE html>
     <link href='{$relpath}css/theme.css' rel='stylesheet'>
 
         <link type='text/css' href='{$relpath}css/style.css' rel='stylesheet'/>
+        <link type='text/css' href='{$relpath}css/tt.css' rel='stylesheet'/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -61,7 +62,7 @@ $header = "<!DOCTYPE html>
           <a class='navbar-brand' href='{$relpath}'>Eat Moore!</a>
             <form class='smallsearch hidden-lg hidden-md hidden-sm navbar-form' role='search'>
                 <div class='form-group has-feedback'>
-                    <input type='text' placeholder='Search' class='form-control searchbox'>
+                    <input type='text' placeholder='Search' class='typeahead form-control searchbox'>
                     <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
                 </div>
             </form>
@@ -94,7 +95,7 @@ $header = "<!DOCTYPE html>
           </ul>
             <form class='hidden-xs navbar-form navbar-right' role='search'>
                 <div class='form-group has-feedback'>
-                    <input type='text' placeholder='Search' class='form-control searchbox'>
+                    <input type='text' placeholder='Search' class='typeahead form-control searchbox'>
                     <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
                 </div>
             </form>
@@ -115,6 +116,7 @@ function printFooter(){
     </div>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js'></script>
+<script src='{$relpath}js/handlebars-v2.0.0.js'></script>
     <script src='{$relpath}js/typeahead.bundle.min.js'></script>
     <script>
         var relpath = '$relpath';
