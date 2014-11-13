@@ -110,7 +110,7 @@ $header = "<!DOCTYPE html>
 }
 
 function printFooter(){
-    $relpath = (isset($_GET['d']) ? str_repeat('../',$_GET['d']) : 1);
+    $relpath = (isset($_GET['d']) ? str_repeat('../',$_GET['d']) : '');
 
     $footer = "
     </div>

@@ -17,6 +17,7 @@ var ta = $('.searchbox').typeahead({
         suggestion: Handlebars.compile("<div class='searchsuggestion {{kind}}'><h2>{{{label}}}</h2><p class='wherefound'>{{{search}}}</p></div>")
     }
 });
+$('.twitter-typeahead').css('display','block');
 
 ta.on('typeahead:closed', function(){
     $('.tt-dataset-searcher').scrollTop(0);

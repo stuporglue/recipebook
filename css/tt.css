@@ -83,3 +83,11 @@ http://stackoverflow.com/questions/20198247/twitters-typeahead-js-suggestions-ar
 .empty-message {
     padding: 5px;
 }
+
+
+.smallsearch,.smallsearch > .form-group {
+    position: fixed;
+    left: 120px;
+    top: 8px;
+    width: calc(100% - 190px);
+}
