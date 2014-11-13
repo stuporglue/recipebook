@@ -66,25 +66,10 @@ body .container .container {
     width: calc(100% - 15px)
 } 
 
-/*
-li.quick:after {
-    content: " "url('../img/timer_sm.png');
-}
-
-li a.quick:after {
-    content: " "url('../img/timer_sm.png');
-}
-
-h1.quick:after {
-    content: " "url('../img/timer_lg.png');
-}
-    */
-
 ul.recipelist,ul.ingredientlist {
     list-style-type: none;
     padding-left: 0;
 }
-
 
 .smallsearch {
     margin: 0px;

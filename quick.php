@@ -20,7 +20,7 @@ while($row = pg_fetch_assoc($res)){
         print "<ul class='recipelist'>";
     }
 
-    print "<li class='".($row['quick'] == 't' ? 'quick' : '')."'><a href='../recipe/{$row['id']}/" . urlencode($row['name']) . "' alt='{$row['name']}'>{$row['name']}</a>".($row['quick'] == 't' ? $quickicon : '') . ($row['favorite'] == 't' ? $favoriteicon : '')."</li>";
+    print "<li class='".($row['quick'] == 't' ? 'quick' : '')."'><a href='../recipe/" . urlencode($row['name']) . "' alt='{$row['name']}'>{$row['name']}</a>".($row['quick'] == 't' ? $quickicon : '') . ($row['favorite'] == 't' ? $favoriteicon : '')."</li>";
 }
 
 print "</ul></div>";

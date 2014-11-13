@@ -5,7 +5,7 @@ require_once('lib/ingredients.php');
 
 class recipe {
     function __construct($name_or_id){
-        $res = pg_query_params('SELECT r.*,c.name AS category FROM recipes r,categories c WHERE (r.name=$1 OR r.id=$2) AND r.category=c.id',Array($name_or_id,intval($name_or_id,10)));
+        $res = pg_query_params('SELECT r.*,c.name AS category,c.label AS catlabel FROM recipes r,categories c WHERE (r.name=$1 OR r.id=$2) AND r.category=c.id',Array($name_or_id,intval($name_or_id,10)));
         if(!$res){
             var_dump($res);
             throw new Exception("No such recipe");

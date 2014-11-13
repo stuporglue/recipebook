@@ -12,6 +12,43 @@ if(count($ids) == 0){
     $ids = getMealIds();
 }
 printHeader("Meal planner",'meal',$depth);
+
+$menu = '';
+$cats = Array();
+
+foreach($ids as $recipeId){
+    $r = new recipe($recipeId);
+    $cols = count($r->subrecipes) + 1;
+    $cols = 12 / $cols;
+
+    $cats[] = "<a href='#{$r->category}'>{$r->catlabel}: {$r->name}</a>";
+
+    $menu .=  '<div class="container">';
+    $menu .=  '<h2 id='.$r->category.'>' . $r->catlabel . ': ' . $r->name . '</h2>';
+    $menu .=  '<div class="row">';
+    $menu .=  "<div class='col-md-$cols'>"; 
+    $menu .=  "<h3>Ingredients</h3>";
+    $menu .=  $r->ingredientString();
+    $menu .=  "</div>";
+    foreach($r->subrecipes as $subname => $sub){
+        $menu .=  "<div class='col-md-$cols'>"; 
+        $menu .=  $sub->ingredientString($subname);
+        $menu .=  "</div>";
+    }
+    $menu .=  '</div></div>';
+
+    $menu .=  '<div class="container">
+        <h3>Directions</h3>
+        <div class="instructions main">';
+    $menu .=  $r->directions();
+    $menu .=  '</div>';
+    foreach($r->subrecipes as $subname => $sub){
+        $menu .=  "<div class='instructions sub'><h3>$subname</h3>{$sub->directions()}</div>";
+    }
+    $menu .=  "</div>";
+}
+
+
 ?>
 <div class='jumbotron'>
 <h1>Here's Your Random Meal!</h1>
@@ -19,46 +56,19 @@ printHeader("Meal planner",'meal',$depth);
 This tool picks one recipe from each category so you can make a 100% Caroline meal.
 There's no guarantee that this is a good combo, but it might be!
 </p>
+<h2>Your Menu</h2>
+<ul class='recipelist'>
+<?php
+foreach($cats as $cat){
+    print "<li>$cat</li>";
+}
+?>
+</ul>
 <p>
 You can <a href='<?php print implode(',',$ids)?>'>bookmark this meal</a> or <a href='./'>generate a new meal</a>. 
 </p>
 </div>
 <?php
 
-foreach($ids as $recipeId){
-    $r = new recipe($recipeId);
-    $cols = count($r->subrecipes) + 1;
-    $cols = 12 / $cols;
-?>
- <div class="container">
-        <h1><?=$r->name?></h1>
-      <!-- Example row of columns -->
-      <div class="row">
-<?php
-    print "<div class='col-md-$cols'>"; 
-    print "<h3>Ingredients</h3>";
-    print $r->ingredientString();
-    print "</div>";
-    foreach($r->subrecipes as $subname => $sub){
-        print "<div class='col-md-$cols'>"; 
-        print $sub->ingredientString($subname);
-        print "</div>";
-    }
-?>
-      </div>
-</div>
-
-<div class='container'>
-    <h3>Directions</h3>
-    <div class='instructions main'>
-        <?=$r->directions()?>
-    </div>
-<?php
-    foreach($r->subrecipes as $subname => $sub){
-        print "<div class='instructions sub'><h3>$subname</h3>{$sub->directions()}</div>";
-    }
-print "</div>";
-
-}
-
+print $menu;
 printFooter();

@@ -19,7 +19,7 @@ function getQuick(){
     return $res;
 }
 
-function getFavorite(){
+function getFavorites(){
     $res = pg_query_params('SELECT r.*,c.name AS category,c.label as catlabel FROM recipes r,categories c WHERE ("hide"=false OR "hide" IS NULL) AND r.category=c.id AND r.favorite=\'t\' ORDER BY c.name,r.name',Array());
     return $res;
 }
