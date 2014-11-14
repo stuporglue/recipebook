@@ -19,10 +19,11 @@ foreach($ids as $recipeId){
 
     $cats[] = "<a href='#{$r->category}'>{$r->catlabel}: {$r->name}</a>";
 
-    $menu .=  '<div class="container">';
     $menu .=  '<h2 id='.$r->category.'>' . $r->catlabel . ': ' . $r->name . '</h2>';
-
+    $menu .=  '<div class="container">';
+    $menu .= "<div class='row'>";
     $menu .= $r->ingredientString(NULL,3);
+    $menu .= "</div>";
     $menu .= "</div>";
 
     $menu .=  '<div class="container">

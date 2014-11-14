@@ -112,6 +112,9 @@ http://stackoverflow.com/questions/20198247/twitters-typeahead-js-suggestions-ar
 }
 
 .smallsearch {
+    margin: 0px 65px 0 0;
+    padding: 0px;
+    display: block;
     position: fixed;
     z-index: 10000;
     left: 120px;

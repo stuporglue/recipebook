@@ -47,16 +47,6 @@ ul.recipelist,ul.ingredientlist {
     padding-left: 0;
 }
 
-.smallsearch {
-    margin: 0px;
-    padding: 0px;
-    display: block;
-    margin-right: 65px;
-    overflow: hidden;
-    position: relative;
-    top: 6px;
-}
-
 .ingredient {
     text-transform: capitalize;
 }
@@ -75,4 +65,8 @@ ul.recipelist,ul.ingredientlist {
         font-weight: bold;
         padding-left: 8px;
     }
+}
+
+.ingredients h4 {
+    margin-top: 20px;
 }

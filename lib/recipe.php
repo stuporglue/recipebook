@@ -53,16 +53,16 @@ class recipe {
         if(count($this->ingredients) === 0){
             $retAr[] = ''; // empty ingredients list
         }else if(is_null($subname)){
-            $ret = "<div class='ingredients'>";
+            $ret = "\n<div class='ingredients'>";
             $ret .= "<h$hlevel>Ingredients</h$hlevel>";
             $ret .= Ingredients::ingredientString($this->ingredients);
-            $ret .= "</div>";
+            $ret .= "</div>\n";
             $retAr[] = $ret;
         }else{
-            $ret = "<div class='ingredients sub'>";
+            $ret = "\n<div class='ingredients sub'>";
             $ret .= "<h".($hlevel + 1).">$subname</h".($hlevel + 1).">";
             $ret .= Ingredients::ingredientString($this->ingredients);
-            $ret .= "</div>";
+            $ret .= "</div>\n";
             $retAr[] = $ret;
         }
 
