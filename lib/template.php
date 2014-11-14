@@ -29,16 +29,17 @@ $header = "<!DOCTYPE html>
     $header .= "</title>
 
         <!-- Latest compiled and minified CSS -->
-        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css'>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css' media='all'>
         <!-- Optional theme -->
-        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css'>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css' media='screen'>
 
 
     <!-- Custom styles for this template -->
-    <link href='{$relpath}css/theme.css' rel='stylesheet'>
+    <link href='{$relpath}css/theme.css' rel='stylesheet' media='screen'>
 
-        <link type='text/css' href='{$relpath}css/style.css' rel='stylesheet'/>
-        <link type='text/css' href='{$relpath}css/tt.css' rel='stylesheet'/>
+        <link type='text/css' href='{$relpath}css/style.css' rel='stylesheet' media='screen'/>
+        <link type='text/css' href='{$relpath}css/print.css' rel='stylesheet' media='print'/>
+        <link type='text/css' href='{$relpath}css/tt.css' rel='stylesheet' media='screen'/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -101,6 +102,7 @@ $header = "<!DOCTYPE html>
     <div class='container theme-showcase' role='main'>
       ";
 
+    // $header .=  "<span class='print'>" . ($_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://') . $_SERVER['SERVER_NAME'] .  $_SERVER['REQUEST_URI'] . "</span>";
     print $header;
 }
 
@@ -124,6 +126,13 @@ function printFooter(){
         var relpath = '$relpath';
     </script>
     <script src='{$relpath}js/js.js'></script>
+";
+
+    if(file_exists(__DIR__ . '/../js/ga.js')){
+        $footer .= "<script src='{$relpath}js/ga.js'></script>";
+    }
+
+    $footer .= "
   </body>
   </html>";
     print $footer;

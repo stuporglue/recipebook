@@ -1,0 +1,40 @@
+.navbar,.sitesearch {
+    display: none !important;
+}
+
+body,html,.container,.jumbotron,.row {
+    margin: 0 !important;
+    width: 100%;
+    padding: 0 !important;
+    font-size: 12px;
+}
+
+.container h1,
+.container h2,
+.container h3,
+.container h4
+{
+    margin: 0 0 3px 0;
+}
+
+.jumbotron h1{
+    padding: 0px;
+    margin: 4px !important;
+}
+
+.screenonly {
+    display: none;
+}
+
+.ingredient {
+    text-transform: capitalize;
+}
+
+.ingredients ul {
+    margin: 0 !important;
+    padding-left: 14px
+}
+
+.print {
+    display: default;
+}

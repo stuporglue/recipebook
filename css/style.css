@@ -70,3 +70,7 @@ ul.recipelist,ul.ingredientlist {
 .ingredients h4 {
     margin-top: 20px;
 }
+
+.print {
+    display: none;
+}
