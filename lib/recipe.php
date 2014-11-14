@@ -48,26 +48,26 @@ class recipe {
         return $this->subrecipes;
     }
 
-    function ingredientString($subname=NULL){
+    function ingredientString($subname=NULL,$hlevel=2){
         $retAr = Array();
         if(count($this->ingredients) === 0){
             $retAr[] = ''; // empty ingredients list
         }else if(is_null($subname)){
             $ret = "<div class='ingredients'>";
-            $ret .= "<h2>Ingredients</h2>";
+            $ret .= "<h$hlevel>Ingredients</h$hlevel>";
             $ret .= Ingredients::ingredientString($this->ingredients);
             $ret .= "</div>";
             $retAr[] = $ret;
         }else{
             $ret = "<div class='ingredients sub'>";
-            $ret .= "<h3>$subname</h3>";
+            $ret .= "<h".($hlevel + 1).">$subname</h".($hlevel + 1).">";
             $ret .= Ingredients::ingredientString($this->ingredients);
             $ret .= "</div>";
             $retAr[] = $ret;
         }
 
         foreach($this->subrecipes as $subn => $sub){
-            $retAr = array_merge($retAr,$sub->ingredientString($subn));
+            $retAr = array_merge($retAr,$sub->ingredientString($subn,$hlevel));
         }
 
         if(is_null($subname)){

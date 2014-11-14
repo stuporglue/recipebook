@@ -16,24 +16,14 @@ $cats = Array();
 
 foreach($ids as $recipeId){
     $r = new recipe($recipeId);
-    $cols = count($r->subrecipes) + 1;
-    $cols = 12 / $cols;
 
     $cats[] = "<a href='#{$r->category}'>{$r->catlabel}: {$r->name}</a>";
 
     $menu .=  '<div class="container">';
     $menu .=  '<h2 id='.$r->category.'>' . $r->catlabel . ': ' . $r->name . '</h2>';
-    $menu .=  '<div class="row">';
-    $menu .=  "<div class='col-md-$cols'>"; 
-    $menu .=  "<h3>Ingredients</h3>";
-    $menu .=  $r->ingredientString();
-    $menu .=  "</div>";
-    foreach($r->subrecipes as $subname => $sub){
-        $menu .=  "<div class='col-md-$cols'>"; 
-        $menu .=  $sub->ingredientString($subname);
-        $menu .=  "</div>";
-    }
-    $menu .=  '</div></div>';
+
+    $menu .= $r->ingredientString(NULL,3);
+    $menu .= "</div>";
 
     $menu .=  '<div class="container">
         <h3>Directions</h3>
