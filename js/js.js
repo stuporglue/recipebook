@@ -38,9 +38,9 @@ $(window).on('resize',function(){
     $('.tt-dropdown-menu').css('max-height',newh + 'px')
 });
 
-$('.smallsearch').on('submit',function(e){
+$('.sitesearch').on('submit',function(e){
     var searchVal = $(e.target).find('input')[1].value;
-    $(e.target).find('.searchval').val(searchval);
+    $(e.target).find('.searchval').val(searchVal);
     e.target.submit();
     return true;
 });

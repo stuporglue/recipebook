@@ -9,12 +9,19 @@ printHeader('Search Results','search');
 <div class='container'>
 <?php
 
-$results = query($_POST['searchval']);
+if(strlen($_POST['searchval']) < 3){
+    print "<p>Please enter a longer search term.</p>";
+    print_r($_POST);
+}else{
+    $results = query($_POST['searchval']);
 
-foreach($results as $res){
-    print "<div class='searchsuggestion " . htmlentities($res['kind']) . "'>";
-    print "<h2><span class='kind'></span><a href='../" . $res['url'] . "'>" . $res['label'] . "</a></h2>";
-    print "<p class='wherefound'>" . $res['search'] . "</p></div>";
+    foreach($results as $res){
+        print "<div class='searchsuggestion " . htmlentities($res['kind']) . "'>";
+        print "<h2><span class='kind'></span><a href='../" . $res['url'] . "'>" . $res['label'] . "</a></h2>";
+        print "<p class='wherefound'>" . $res['search'] . "</p></div>";
+    }
 }
+
+print "</div>";
 
 printFooter();
