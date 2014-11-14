@@ -11,8 +11,7 @@ class Ingredients {
                 $liinner[] = "<span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span>";
             }
             $liinner[] = $ingredient['premodifier'];
-            $liinner[] = "<a href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient screenonly'>" . htmlentities($ingredient['name']) . "</a>";
-            $liinner[] = "<span class='ingredient print'>" . htmlentities($ingredient['name']) . "</span>" ;
+            $liinner[] = "<a href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient screenonly'>" . htmlentities($ingredient['name']) . "</a><span class='ingredient print'>" . htmlentities($ingredient['name']) . "</span>" ;
             $liinner[] =  $ingredient['postmodifier'];
 
             $li = "<li>" . implode(' ',$liinner) . "</li>";
