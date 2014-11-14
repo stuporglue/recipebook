@@ -60,12 +60,6 @@ $header = "<!DOCTYPE html>
             <span class='icon-bar'></span>
           </button>
           <a class='navbar-brand' href='{$relpath}'>Eat Moore!</a>
-            <form class='smallsearch hidden-lg hidden-md hidden-sm navbar-form' role='search'>
-                <div class='form-group has-feedback'>
-                    <input type='text' placeholder='Search' class='typeahead form-control searchbox'>
-                    <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
-                </div>
-            </form>
         </div>
         <div id='navbar' class='navbar-collapse collapse'>
           <ul class='nav navbar-nav'>";
@@ -114,6 +108,12 @@ function printFooter(){
 
     $footer = "
     </div>
+    <form class='smallsearch hidden-lg hidden-md hidden-sm navbar-form' role='search'>
+        <div class='form-group has-feedback'>
+            <input type='text' placeholder='Search' class='typeahead form-control searchbox'>
+            <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
+        </div>
+    </form>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js'></script>
 <script src='{$relpath}js/handlebars-v2.0.0.js'></script>

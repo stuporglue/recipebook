@@ -99,10 +99,34 @@ http://stackoverflow.com/questions/20198247/twitters-typeahead-js-suggestions-ar
     padding: 5px;
 }
 
+.tt-dropdown-menu {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 4px;
+    max-height: 300px;
+    overflow: auto;
+    padding: 4px 0;
+    width: 100%;
+}
 
-.smallsearch,.smallsearch > .form-group {
-    position: fixed;
+.smallsearch {
+    position: absolute;
+    z-index: 10000;
     left: 120px;
     top: 8px;
     width: calc(100% - 190px);
+    overflow: visible;
+}
+
+@media (max-width: 4000px) {
+    .smallsearch .tt-dropdown-menu {
+        position: fixed !important;
+        top: 47px !important;
+        left: 10px !important;
+        margin-left: auto;
+        margin-right: auto;
+        width: calc(100% - 20px) !important;
+    }
 }
