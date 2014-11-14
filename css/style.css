@@ -68,3 +68,11 @@ ul.recipelist,ul.ingredientlist {
     height: 75px; 
     visibility: hidden; 
 }
+
+@media (max-width: 400px) {
+    .navbar-brand {
+        font-size: 12px;
+        font-weight: bold;
+        padding-left: 8px;
+    }
+}

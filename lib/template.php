@@ -108,10 +108,11 @@ function printFooter(){
 
     $footer = "
     </div>
-    <form class='smallsearch hidden-lg hidden-md hidden-sm navbar-form' role='search'>
+    <form class='smallsearch hidden-lg hidden-md hidden-sm navbar-form' role='search' method='post' action='{$relpath}search'>
         <div class='form-group has-feedback'>
-            <input type='text' placeholder='Search' class='typeahead form-control searchbox'>
+            <input type='text' placeholder='Search' class='typeahead form-control searchbox' name='searchval'>
             <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
+            <input style='margin-left:-1000px;' name='submit' type='submit'/>
         </div>
     </form>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>

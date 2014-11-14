@@ -6,6 +6,7 @@
     RewriteRule ^(.+)/$ $1 [R=301,L]
 
 
+    RewriteRule ^search$ ./search.php
     RewriteRule ^quick$ ./quick.php?id=$1 
     RewriteRule ^favorites$ ./favorites.php?id=$1 
     RewriteRule ^tips$ ./tips.php?id=$1 

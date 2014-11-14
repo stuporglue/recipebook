@@ -112,7 +112,7 @@ http://stackoverflow.com/questions/20198247/twitters-typeahead-js-suggestions-ar
 }
 
 .smallsearch {
-    position: absolute;
+    position: fixed;
     z-index: 10000;
     left: 120px;
     top: 8px;
@@ -120,7 +120,7 @@ http://stackoverflow.com/questions/20198247/twitters-typeahead-js-suggestions-ar
     overflow: visible;
 }
 
-@media (max-width: 4000px) {
+@media (max-width: 400px) {
     .smallsearch .tt-dropdown-menu {
         position: fixed !important;
         top: 47px !important;
@@ -128,5 +128,10 @@ http://stackoverflow.com/questions/20198247/twitters-typeahead-js-suggestions-ar
         margin-left: auto;
         margin-right: auto;
         width: calc(100% - 20px) !important;
+    }
+
+    .smallsearch {
+        width: calc(100% - 150px);
+        left: 80px;
     }
 }

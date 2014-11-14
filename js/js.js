@@ -7,7 +7,7 @@ var ta = $('.searchbox').typeahead({
     name: 'searcher',
     displayKey: 'plainlabel',
     source: function(query,cb){
-        $.getJSON(relpath + 'search.php?q=' + encodeURIComponent(query),cb); 
+        $.getJSON(relpath + 'query.php?q=' + encodeURIComponent(query),cb); 
         $('.tt-dataset-searcher').scrollTop(0);
         $('.tt-dropdown-menu').scrollTop(0);
     },
@@ -36,4 +36,11 @@ $(window).on('resize',function(){
         newh = 100;
     }
     $('.tt-dropdown-menu').css('max-height',newh + 'px')
+});
+
+$('.smallsearch').on('submit',function(e){
+    var searchVal = $(e.target).find('input')[1].value;
+    $(e.target).find('.searchval').val(searchval);
+    e.target.submit();
+    return true;
 });

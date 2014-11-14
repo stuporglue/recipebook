@@ -1,47 +1,20 @@
 <?php
+require_once('lib/template.php');
+require_once('lib/query.php');
+printHeader('Search Results','search');
+?>
+<div class="jumbotron">
+<h1>Search Results for <em><?=$_POST['searchval']?></em></h1>
+</div>
+<div class='container'>
+<?php
 
-require_once('lib/db.inc');
+$results = query($_POST['searchval']);
 
-$res = search($_GET['q']);
-
-$results = Array();
-while($row = pg_fetch_assoc($res)){
-    $row['search'] = preg_replace('|<remove>.*?</remove>|','',$row['search']);
-    $pos = stripos($row['search'],$_GET['q']);
-    $start = $pos - 30;
-    if($start !== FALSE && $start < 0){
-        $start = 0;
-    }
-
-    $origLen = strlen($row['search']);
-
-    $row['search'] = substr($row['search'],$start,60 + strlen($_GET['q']));
-    preg_match("/(.*)({$_GET['q']})(.*)/i",$row['search'],$matches);
-    if(count($matches) > 0){
-        $row['search'] = htmlentities($matches[1]) . "<em>" . htmlentities($matches[2]) . "</em>" . htmlentities($matches[3]);
-    }
-    $row['plainlabel'] = $row['label'];
-    preg_match("/(.*)({$_GET['q']})(.*)/i",$row['label'],$matches);
-    if(count($matches) > 0){
-        $row['label'] = htmlentities($matches[1]) . "<em>" . htmlentities($matches[2]) . "</em>" . htmlentities($matches[3]);
-    }
-    $row['search'] = trim($row['search']);
-
-    if(strlen($row['search']) < $origLen){
-        $row['search'] .= '&hellip;';
-    }
-
-    if($start !== 0){
-        $row['search'] = '&hellip;' . $row['search'];
-    }
-
-
-    $row['url'] = $row['urlpre'] . urlencode($row['urlpost']);
-    unset($row['urlpre']);
-    unset($row['urlpost']);
-
-    $results[] = $row;
+foreach($results as $res){
+    print "<div class='searchsuggestion " . htmlentities($res['kind']) . "'>";
+    print "<h2><span class='kind'></span><a href='../" . $res['url'] . "'>" . $res['label'] . "</a></h2>";
+    print "<p class='wherefound'>" . $res['search'] . "</p></div>";
 }
-header("Content-type: application/json");
-print json_encode($results);
 
+printFooter();
