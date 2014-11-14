@@ -5,13 +5,17 @@ class Ingredients {
     static function ingredientString($ingredients,$urlDepth = 1){
         $ret = "<ul>";
         foreach($ingredients as $ingredient){
-            $li = "<li>" . Ingredients::quantityToString($ingredient['quantity']);
-            $li .= " <span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span> ";
-            $li .= $ingredient['premodifier'];
-            $li .= " <a href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient screenonly'>" . htmlentities($ingredient['name']) . "</a> ";
-            $li .= " <span class='ingredient print'>" . htmlentities($ingredient['name']) . "</span>" ;
-            $li .=  $ingredient['postmodifier'];
-            $li .= "</li>";
+            $liinner = Array();
+            $liinner[] = Ingredients::quantityToString($ingredient['quantity']);
+            if($ingredient['abbreviation'] !== ''){
+                $liinner[] = "<span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span>";
+            }
+            $liinner[] = $ingredient['premodifier'];
+            $liinner[] = "<a href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient screenonly'>" . htmlentities($ingredient['name']) . "</a>";
+            $liinner[] = "<span class='ingredient print'>" . htmlentities($ingredient['name']) . "</span>" ;
+            $liinner[] =  $ingredient['postmodifier'];
+
+            $li = "<li>" . implode(' ',$liinner) . "</li>";
             $li = str_replace(' ,',',',$li);
             $ret .= $li;
         }
