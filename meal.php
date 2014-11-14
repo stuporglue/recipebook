@@ -3,7 +3,7 @@ require_once('lib/recipe.php');
 require_once('lib/template.php');
 $ids = Array();
 if(isset($_GET['id']) && strlen($_GET['id']) > 0){
-    $ids = explode(',',$_GET['id']);
+    $ids = explode(',',urldecode($_GET['id']));
 }
 
 if(count($ids) == 0){

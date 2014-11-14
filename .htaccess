@@ -7,16 +7,16 @@
 
 
     RewriteRule ^search$ ./search.php
-    RewriteRule ^quick$ ./quick.php?id=$1 
-    RewriteRule ^favorites$ ./favorites.php?id=$1 
-    RewriteRule ^tips$ ./tips.php?id=$1 
-    RewriteRule ^meal$ ./meal.php?id=$1 
-    RewriteRule ^ingredients$ ./ingredients.php?id=$1 
+    RewriteRule ^quick$ ./quick.php
+    RewriteRule ^favorites$ ./favorites.php
+    RewriteRule ^tips$ ./tips.php
+    RewriteRule ^meal$ ./meal.php
+    RewriteRule ^ingredients$ ./ingredients.php
 
-    RewriteRule ^meal/(.*) ./meal.php?id=$1&d=2
-    RewriteRule ^recipe/(.*) recipe.php?id=$1&d=2 
-    RewriteRule ^category/(.*) category.php?id=$1&d=2
-    RewriteRule ^ingredient/(.*) ingredient.php?id=$1&d=2
+    RewriteRule ^meal/(.*) ./meal.php?id=$1&d=2 [B]
+    RewriteRule ^recipe/(.*) recipe.php?id=$1&d=2 [B]
+    RewriteRule ^category/(.*) category.php?id=$1&d=2 [B]
+    RewriteRule ^ingredient/(.*) ingredient.php?id=$1&d=2 [B]
 </IfModule>
 
 AddDefaultCharset utf-8

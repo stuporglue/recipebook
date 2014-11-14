@@ -1,7 +1,7 @@
 <?php
 require_once('lib/recipe.php');
 require_once('lib/template.php');
-$r = new recipe($_GET['id']);
+$r = new recipe(urldecode($_GET['id']));
 printHeader($r->name,$r->category);
 
 ?>

@@ -40,7 +40,27 @@ $(window).on('resize',function(){
 
 $('.sitesearch').on('submit',function(e){
     var searchVal = $(e.target).find('input')[1].value;
-    $(e.target).find('.searchval').val(searchVal);
-    e.target.submit();
-    return true;
+    if(searchVal.length > 0){
+        $(e.target).find('.searchval').val(searchVal);
+        var f = e.target
+        f.submit();
+        return true;
+    }else{
+        return false;
+    }
 });
+if (window.navigator.userAgent.match(/iPad/i) || window.navigator.userAgent.match(/iPhone/i)) {
+    // http://stackoverflow.com/questions/8057485/positionfixed-in-ios5-moves-when-input-is-focused
+
+    // on old iphones you can't really see the scroll down because of the dumb big keyboard
+    // so maybe we should just search when they're done typing? 
+    // or maybe not since they can hit the search button to do so already
+    // ta.on('typeahead:closed', function(e){
+    //     $(e.target).closest('form').submit();
+    // });
+
+    $('.navbar').css('position','absolute');
+    $('.navbar').css('top','0px');
+    $('.smallsearch').css('position','absolute');
+    $('.smallsearch').css('top','8px');
+}

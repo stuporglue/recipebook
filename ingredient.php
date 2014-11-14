@@ -1,17 +1,18 @@
 <?php
 require_once('lib/template.php');
-printHeader(implode(' ',array_map('ucfirst',explode(' ',$_GET['id']))),'');
+$ingId = urldecode($_GET['id']);
+printHeader(implode(' ',array_map('ucfirst',explode(' ',$ingId))),'');
 ?>
 <div class="jumbotron">
 <?php
-print "<h1 class='ingredient'>" . htmlentities($_GET['id']) . "!</h1>";
+print "<h1 class='ingredient'>" . htmlentities($ingId) . "!</h1>";
 ?>
-    These are all the recipes that use <?=htmlentities($_GET['id'])?>. If you just love it, or want to use it up, this is the place to be.
+    These are all the recipes that use <?=htmlentities($ingId)?>. If you just love it, or want to use it up, this is the place to be.
 </div>
 <div class="container">
 <?php 
 $prevCat = '';
-$res = getRecipesByIngredient($_GET['id']);
+$res = getRecipesByIngredient($ingId);
 while($row = pg_fetch_assoc($res)){
     if($row['catlabel'] !== $prevCat){
         if($prevCat !== ''){

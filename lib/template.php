@@ -92,7 +92,7 @@ $header = "<!DOCTYPE html>
                 <div class='form-group has-feedback'>
                     <input type='text' placeholder='Search' class='typeahead form-control searchbox' name='searchval'>
                     <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
-                    <input style='position:absolute;top:-1000px;left:-1000px; name='submit' type='submit'/>
+                    <input style='position:absolute;top:-1000px;left:-1000px; name='dosearch' type='submit'/>
                 </div>
             </form>
         </div><!--/.nav-collapse -->
@@ -115,7 +115,7 @@ function printFooter(){
         <div class='form-group has-feedback'>
             <input type='text' placeholder='Search' class='typeahead form-control searchbox' name='searchval'>
             <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
-            <input style='margin-left:-10000px;' name='submit' type='submit'/>
+            <input style='margin-left:-10000px;' name='dosearch' type='submit'/>
         </div>
     </form>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
