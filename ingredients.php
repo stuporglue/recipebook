@@ -19,20 +19,22 @@ Use this list to find all recipes that use a specific ingredient.
         $firstChar = ucfirst(substr($row['ingredient'],0,1));
         if($firstChar != $prevChar){
             if($prevChar != ''){
-                print "</ul>";
+                $list .= "</ul></div>\n";
             }
             $prevChar = $firstChar;
-            $list .= "<h2>$prevChar</h2>";
+            $list .= "\n<div id='{$prevChar}' class='alphagroup'><h2>$prevChar</h2>";
             $list .= "<ul id='$firstChar' class='ingredientlist'>";
             $links[] = "<a href='#{$prevChar}'>$prevChar</a>";
         }
         $list .= "<li><a href='../ingredient/". urlencode($row['ingredient']) . "' alt='" . htmlentities($row['ingredient']) . "' class='ingredient'>" . htmlentities($row['ingredient']) . "</a></li>";
     }
-    $list .= "</ul>";
+    $list .= "</ul></div>";
 
     print "<div class='links'>" . implode(' | ',$links) . "</div>";
 
+    print "<div class='longlist'>";
     print $list;
+    print "</div>";
 ?>
 </ul>
 </div>

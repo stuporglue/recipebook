@@ -51,14 +51,6 @@ ul.recipelist,ul.ingredientlist {
     text-transform: capitalize;
 }
 
-*[id]:before { 
-    display: block; 
-    content: " "; 
-    margin-top: -75px; 
-    height: 75px; 
-    visibility: hidden; 
-}
-
 @media (max-width: 400px) {
     .navbar-brand {
         font-size: 12px;
@@ -73,4 +65,36 @@ ul.recipelist,ul.ingredientlist {
 
 .print {
     display: none;
+}
+
+.links {
+    margin-bottom: 20px;
+}
+
+.longlist {
+    margin-top: 45px;
+    -webkit-column-width: 175px;
+    -webkit-column-rule: 1px inset #333;
+    -webkit-column-gap: 40px;
+    -webkit-column-break-after: right;
+
+    column-width: 175px;
+    column-rule: 1px inset #333;
+    column-gap: 40px;
+    column-break-after: right;
+
+    -moz-column-width: 175px;
+    -moz-column-rule: 1px inset #333;
+    -moz-column-gap: 40px;
+    -moz-column-break-after: right;
+}
+
+.alphagroup {
+    display: inline-block;
+    width: 200px;
+}
+
+
+.alphagroup h2 {
+    margin-top: 0;
 }
