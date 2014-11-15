@@ -38,3 +38,10 @@ body,html,.container,.jumbotron,.row {
 .print {
     display: default;
 }
+
+.alphagroup {
+    display: inline-block;
+    width: 200px;
+    float: left;
+    page-break-inside: avoid;
+}

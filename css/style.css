@@ -72,7 +72,6 @@ ul.recipelist,ul.ingredientlist {
 }
 
 .longlist {
-    margin-top: 45px;
     -webkit-column-width: 175px;
     -webkit-column-rule: 1px inset #333;
     -webkit-column-gap: 40px;

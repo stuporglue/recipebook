@@ -6,16 +6,23 @@ class Ingredients {
         $ret = "<ul>";
         foreach($ingredients as $ingredient){
             $liinner = Array();
-            $liinner[] = Ingredients::quantityToString($ingredient['quantity']);
-            if($ingredient['abbreviation'] !== ''){
-                $liinner[] = "<span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span>";
+
+            if($ingredient['unit'] != 'to taste'){
+                $liinner[] = Ingredients::quantityToString($ingredient['quantity']);
+                if($ingredient['abbreviation'] !== ''){
+                    $liinner[] = "<span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span>";
+                }
             }
             $liinner[] = $ingredient['premodifier'];
             $liinner[] = "<a href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient screenonly'>" . htmlentities($ingredient['name']) . "</a><span class='ingredient print'>" . htmlentities($ingredient['name']) . "</span>" ;
             $liinner[] =  $ingredient['postmodifier'];
 
-            $li = "<li>" . implode(' ',$liinner) . "</li>";
-            $li = str_replace(' ,',',',$li);
+            if($ingredient['unit'] == 'to taste'){
+                $liinner[] = ', to taste';
+            }
+
+            $li = "\n<li>" . implode(' ',$liinner) . "</li>\n";
+            $li = preg_replace('| +,|',',',$li);
             $ret .= $li;
         }
         $ret .= "</ul>";
