@@ -19,7 +19,7 @@ if($r->favorite == 't'){
 <?php
 
 if(!is_null($r->about)){
-    print "<p>" . $r->about . "</p>";
+    print "<p>" . $r->about() . "</p>";
 }
     
 $usedIn = $r->usedIn();

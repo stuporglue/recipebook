@@ -15,8 +15,7 @@ printHeader("Eat Moore!","home");
         </p>
         <p>
             These are Caroline's tried-and-true recipes. These are the ones that she has made again and again
-            and decided that they're worth keeping around. Unlike other recipe sites, this one is curated by
-            a single person 
+            and decided that they're worth keeping around. 
         </p>
         <p>
             They come from all over. Some are traditional family recipes, others from 

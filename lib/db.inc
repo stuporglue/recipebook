@@ -67,7 +67,12 @@ function getUnit($id){
 }
 
 function getAllIngredients(){
-    $res = pg_query_params("SELECT id,COALESCE(plural,name) AS ingredient FROM ingredients ORDER BY COALESCE(plural,name)",Array());
+    $res = pg_query_params("SELECT i.name AS ingredient,COUNT(r.recipe_id) AS count
+        FROM 
+        ingredients i 
+        LEFT JOIN recipe_ingredient r ON (r.ingredient_id=i.id)
+        GROUP BY i.name
+        ORDER BY name",Array());
     return $res;
 }
 

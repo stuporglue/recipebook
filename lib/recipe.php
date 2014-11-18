@@ -72,6 +72,9 @@ class recipe {
 
         if(is_null($subname)){
             $retAr = array_filter($retAr);
+            if(count($retAr) == 0){
+                return "";
+            }
             $retStr = '';
             $cols = 12 / count($retAr);
             foreach($retAr as $ing){
@@ -94,6 +97,11 @@ class recipe {
     function directions(){
         $dir = preg_replace("|\s([0-9]+)/([0-9]+)\s|"," <span class='fraction'><sup>$1</sup>&frasl;<sub>$2</sub></span> ",$this->instructions);
         return $this->parsedown->text($dir);
+    }
+
+    function about(){
+        $about = preg_replace("|\s([0-9]+)/([0-9]+)\s|"," <span class='fraction'><sup>$1</sup>&frasl;<sub>$2</sub></span> ",$this->about);
+        return $this->parsedown->text($about);
     }
 
     function usedIn(){

@@ -26,7 +26,7 @@ Use this list to find all recipes that use a specific ingredient.
             $list .= "<ul id='$firstChar' class='ingredientlist'>";
             $links[] = "<a href='#{$prevChar}'>$prevChar</a>";
         }
-        $list .= "<li><a href='../ingredient/". urlencode($row['ingredient']) . "' alt='" . htmlentities($row['ingredient']) . "' class='ingredient screenonly'>" . htmlentities($row['ingredient']) . "</a><span class='ingredient print'>" . htmlentities($row['ingredient']) . "</span></li>";
+        $list .= "<li><a href='../ingredient/". urlencode($row['ingredient']) . "' alt='" . htmlentities($row['ingredient']) . "' class='ingredient screenonly'>" . htmlentities($row['ingredient']) . "</a><span class='ingredient print'>" . htmlentities($row['ingredient']) . "</span><span class='count screenonly' title='Used in {$row['count']} recipes'>" . $row['count'] . "</span></li>";
     }
     $list .= "</ul></div>";
 

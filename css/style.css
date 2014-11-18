@@ -97,3 +97,15 @@ ul.recipelist,ul.ingredientlist {
 .alphagroup h2 {
     margin-top: 0;
 }
+
+.count {
+    color: #aaa;
+}
+
+.count:before {
+    content: ' (';
+}
+
+.count:after {
+    content: ')'
+}

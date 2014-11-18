@@ -14,12 +14,16 @@ body,html,.container,.jumbotron,.row {
 .container h3,
 .container h4
 {
-    margin: 0 0 3px 0;
+    margin: 5px 0 3px 0;
 }
 
 .jumbotron h1{
     padding: 0px;
     margin: 4px !important;
+}
+
+.jumbotron p {
+    font-size: 12px;
 }
 
 .screenonly {
@@ -45,3 +49,8 @@ body,html,.container,.jumbotron,.row {
     float: left;
     page-break-inside: avoid;
 }
+
+.row > div {
+    padding-left: 0;
+}
+
