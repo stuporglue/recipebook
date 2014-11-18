@@ -1273,6 +1273,7 @@ class Parsedown
                 'text' => $Link['text'],
                 'attributes' => array(
                     'href' => $url,
+                    'target' => '_blank', // Added by stuporglue 
                 ),
             );
         }
