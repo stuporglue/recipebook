@@ -21,6 +21,7 @@ Features
 * Random meal generator
 * Support for marking recipes as favorite or quick (or both)
 * Browse recipes by ingredient or by category
+* Nice print specific CSS makes for easy hard-copy recipes
 
 Quirks
 ------
