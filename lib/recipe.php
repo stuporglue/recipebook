@@ -35,7 +35,7 @@ class recipe {
         if(isset($this->subrecipes)){
             return $this->subrecipes;
         }
-        $res = pg_query_params("SELECT * FROM recpie_recipe WHERE parent=$1",Array($this->id));
+        $res = pg_query_params("SELECT * FROM recipe_recipe WHERE parent=$1",Array($this->id));
         $this->subrecipes = Array();
         while($row = pg_fetch_assoc($res)){
             $this->subrecipes[$row['childname']] = new recipe($row['child']);
@@ -107,7 +107,7 @@ class recipe {
     function usedIn(){
         global $favoriteicon,$quickicon;
 
-        $res = pg_query_params('SELECT r.name,r.quick,r.favorite FROM recpie_recipe rr, recipes r WHERE rr.parent=r.id AND rr.child=$1',Array($this->id));
+        $res = pg_query_params('SELECT r.name,r.quick,r.favorite FROM recipe_recipe rr, recipes r WHERE rr.parent=r.id AND rr.child=$1',Array($this->id));
         $parents = Array();
         while($row = pg_fetch_assoc($res)){
             $parents[] = "<li><a href='../recipe/" . urlencode($row['name']) . "' alt='{$row['name']}'>{$row['name']}</a>".($row['quick'] == 't' ? $quickicon : '') . ($row['favorite'] == 't' ? $favoriteicon : '')."</li>";
