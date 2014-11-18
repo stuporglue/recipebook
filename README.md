@@ -7,7 +7,7 @@ Feel free to use this code to jump-start your own recipe website. The code does 
 hard coded content (index.php, tips.php, meal.php) so you'll want to edit those to suit your
 site. 
 
-You can check out the live site here: [Demo / EatMoore.com](EatMoore.com)
+You can check out the live site here: [Demo / EatMoore.com](http://EatMoore.com)
 
 Features 
 --------
