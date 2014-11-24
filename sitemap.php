@@ -4,7 +4,7 @@ header("Content-type: text/xml; charset=utf-8");
 require_once('lib/db.inc');
 
 function printUrl($loc,$freq='yearly'){
-    print "<url><loc>$loc</loc><changfreq>$freq</changfreq></url>\n";
+    print "<url><loc>$loc</loc><changefreq>$freq</changefreq></url>\n";
 }
 
 print '<?xml version="1.0" encoding="UTF-8"?>
