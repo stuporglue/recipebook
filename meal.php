@@ -55,7 +55,7 @@ foreach($cats as $cat){
 ?>
 </ul>
 <p>
-You can <a href='<?php print "{$relpath}meal/" . implode(',',$ids)?>'>bookmark this meal</a> or <a href='./'>generate a new meal</a>. 
+You can <a href='<?php print "{$relpath}meal/" . implode(',',$ids)?>'>bookmark this meal</a> or <a href='<?php print "{$relpath}meal/";?>'>generate a new meal</a>. 
 </p>
 </div>
 <?php

@@ -6,6 +6,7 @@
     RewriteRule ^(.+)/$ $1 [R=301,L]
 
 
+    RewriteRule ^sitemap.xml$ ./sitemap.php
     RewriteRule ^search$ ./search.php
     RewriteRule ^quick$ ./quick.php
     RewriteRule ^favorites$ ./favorites.php

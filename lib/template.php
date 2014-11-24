@@ -1,4 +1,13 @@
 <?php
+
+
+function handler($errno,$errstr,$errfile,$errline,$errcontext){
+    error_log($_SERVER['HTTP_REFERER'] . ' ---> ' . $_SERVER['REQUEST_URI']);
+    error_log($errstr . ' -- ' . $errfile . ":" . $errline);
+}
+
+set_error_handler('handler');
+
 require_once('lib/db.inc');
 
 global $quickicon,$favoriteicon;
