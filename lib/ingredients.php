@@ -8,20 +8,23 @@ class Ingredients {
             $liinner = Array();
 
             if($ingredient['unit'] != 'to taste'){
-                $liinner[] = Ingredients::quantityToString($ingredient['quantity']);
+                $quant = Array();
+                $quant[] = Ingredients::quantityToString($ingredient['quantity']);
                 if($ingredient['abbreviation'] !== ''){
-                    $liinner[] = "<span alt='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span>";
+                    $quant[] = "<span title='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span>";
                 }
+
+                $liinner[] = "<span itemprop='amount'>" . implode(' ',$quant) . "</span>";
             }
             $liinner[] = $ingredient['premodifier'];
-            $liinner[] = "<a href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient screenonly'>" . htmlentities($ingredient['name']) . "</a><span class='ingredient print'>" . htmlentities($ingredient['name']) . "</span>" ;
+            $liinner[] = "<a itemprop='name' href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient screenonly'>" . htmlentities($ingredient['name']) . "</a><span class='ingredient print'>" . htmlentities($ingredient['name']) . "</span>" ;
             $liinner[] =  $ingredient['postmodifier'];
 
             if($ingredient['unit'] == 'to taste'){
                 $liinner[] = ', to taste';
             }
 
-            $li = "\n<li>" . implode(' ',$liinner) . "</li>\n";
+            $li = "\n<li itemprop='ingredient' itemscope itemtype='http://data-vocabulary.org/RecipeIngredient'>" . implode(' ',$liinner) . "</li>\n";
             $li = preg_replace('| +,|',',',$li);
             $ret .= $li;
         }

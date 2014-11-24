@@ -101,7 +101,7 @@ $header = "<!DOCTYPE html>
                 <div class='form-group has-feedback'>
                     <input type='text' placeholder='Search' class='typeahead form-control searchbox' name='searchval'>
                     <span class='glyphicon glyphicon-search form-control-feedback searchicon'></span>
-                    <input style='position:absolute;top:-1000px;left:-1000px; name='dosearch' type='submit'/>
+                    <input style='position:absolute;top:-1000px;left:-1000px;' name='dosearch' type='submit'/>
                 </div>
             </form>
         </div><!--/.nav-collapse -->
