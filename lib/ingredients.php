@@ -3,7 +3,7 @@
 class Ingredients {
 
     static function ingredientString($ingredients,$urlDepth = 1){
-        $ret = "<ul>";
+        $ret = "<ul class='ingredientlist'>";
         foreach($ingredients as $ingredient){
             $liinner = Array();
 
@@ -24,7 +24,7 @@ class Ingredients {
                 $liinner[] = ', to taste';
             }
 
-            $li = "\n<li itemprop='ingredient' itemscope itemtype='http://data-vocabulary.org/RecipeIngredient'>" . implode(' ',$liinner) . "</li>\n";
+            $li = "\n<li itemprop='ingredient' itemscope itemtype='http://data-vocabulary.org/RecipeIngredient'><input type='checkbox'/> " . implode(' ',$liinner) . "</li>\n";
             $li = preg_replace('| +,|',',',$li);
             $ret .= $li;
         }

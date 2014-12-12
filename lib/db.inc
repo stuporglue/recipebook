@@ -78,12 +78,20 @@ function getAllIngredients(){
 
 function getRecipesByIngredient($ingredientName){
     $res = pg_query_params('
-        SELECT r.*,c.name AS category,c.label as catlabel FROM recipes r, categories c, pretty_ingredients pi
-        WHERE
-        pi.name=$1 AND
+        SELECT 
+        r.*,
+        c.name AS catecory,
+        c.label as catlabel 
+        FROM 
+        recipes r, 
+        categories c, 
+        pretty_ingredients pi,
+        ingredients i
+        WHERE 
+        i.name=$1 AND
         pi.recipe_id=r.id AND
-        c.id=r.category
-        ORDER BY c.name,r.name
+        c.id=r.category AND 
+        pi.ingredient_id=i.id
         ',Array($ingredientName));
     return $res;
 }
