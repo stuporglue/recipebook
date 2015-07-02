@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine Off
+</IfModule>
+AuthType Basic
+AuthName "Chef's Recipe Box"
+AuthUserFile "/home2/stuporgl/.htpasswds/public_html/recipebook/admin/passwd"
+require valid-user

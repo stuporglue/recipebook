@@ -2,22 +2,26 @@
 
 
 function handler($errno,$errstr,$errfile,$errline,$errcontext){
-    error_log($_SERVER['HTTP_REFERER'] . ' ---> ' . $_SERVER['REQUEST_URI']);
+    if(isset($_SERVER['HTTP_REFERER'])){
+        error_log($_SERVER['HTTP_REFERER'] . ' ---> ' . $_SERVER['REQUEST_URI']);
+    }
     error_log($errstr . ' -- ' . $errfile . ":" . $errline);
 }
 
 set_error_handler('handler');
 
-require_once('lib/db.inc');
+require_once(__DIR__ . '/db.inc');
 
 global $quickicon,$favoriteicon;
 $quickicon = " <span class='glyphicon glyphicon-time' title='Ready in 30 minutes or less!'></span>";
 $favoriteicon = " <span class='glyphicon glyphicon-heart' title='A Caroline favorite!'></span>";
 
-function printHeader($title,$activeCat){
+function printHeader($title="EatMoore",$activeCat=NULL){
     global $quickicon,$favoriteicon;
 
-    $relpath = (isset($_GET['d']) ? str_repeat('../',$_GET['d']) : '');
+    $admin_area = strpos($_SERVER['REQUEST_URI'],'/chef/') === 0;
+
+    $relpath = '//' . $_SERVER['HTTP_HOST'] . '/';
 
 $header = "<!DOCTYPE html>
 <html lang='en'>
@@ -45,10 +49,18 @@ $header = "<!DOCTYPE html>
 
     <!-- Custom styles for this template -->
     <link href='{$relpath}css/theme.css' rel='stylesheet' media='screen'>
+    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+    ";
 
-        <link type='text/css' href='{$relpath}css/style.css' rel='stylesheet' media='screen'/>
-        <link type='text/css' href='{$relpath}css/print.css' rel='stylesheet' media='print'/>
-        <link type='text/css' href='{$relpath}css/tt.css' rel='stylesheet' media='screen'/>
+    if($admin_area){
+        $header .= "<link type='text/css' href='{$relpath}chef/bootgrid/jquery.bootgrid.min.css' rel='stylesheet' media='screen'/>";
+        $header .= "<link type='text/css' href='{$relpath}css/admin.css' rel='stylesheet' media='screen'/>";
+    }
+
+    $header .= "
+    <link type='text/css' href='{$relpath}css/style.css' rel='stylesheet' media='screen'/>
+    <link type='text/css' href='{$relpath}css/print.css' rel='stylesheet' media='print'/>
+    <link type='text/css' href='{$relpath}css/tt.css' rel='stylesheet' media='screen'/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -116,7 +128,8 @@ $header = "<!DOCTYPE html>
 }
 
 function printFooter(){
-    $relpath = (isset($_GET['d']) ? str_repeat('../',$_GET['d']) : '');
+    $relpath = '//' . $_SERVER['HTTP_HOST'] . '/';
+    $admin_area = strpos($_SERVER['REQUEST_URI'],'/chef/') === 0;
 
     $footer = "
     </div>
@@ -131,6 +144,17 @@ function printFooter(){
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js'></script>
 <script src='{$relpath}js/handlebars-v2.0.0.js'></script>
     <script src='{$relpath}js/typeahead.bundle.js'></script>
+    ";
+
+    if($admin_area){
+        $footer .= "
+            <script src='{$relpath}chef/bootgrid/jquery.bootgrid.js'></script>
+            <script src='{$relpath}chef/bootgrid/jquery.bootgrid.fa.js'></script>
+            <script src='{$relpath}js/admin.js'></script>
+            ";
+    }
+
+    $footer .= "
     <script>
         var relpath = '$relpath';
     </script>

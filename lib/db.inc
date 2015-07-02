@@ -32,13 +32,13 @@ function getCategories(){
         FROM
         categories, recipes
         WHERE categories.id=recipes.category
-         AND (hide=false OR hide IS NULL)
-         ORDER BY COALESCE(categories.label,categories.name)',Array());
+        AND (hide=false OR hide IS NULL)
+        ORDER BY COALESCE(categories.label,categories.name)',Array());
     $rows = Array();
     while($row = pg_fetch_assoc($res)){
         $rows[] = $row; 
     }
-    
+
     return $rows;
 }
 
