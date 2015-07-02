@@ -21,9 +21,9 @@ printHeader("Chef Login Area");
 <h1>Chef Area</h1>
 Welcome to the chef area
 <form method="post">
-    <label for="username">Chef Name</label><input name="username"/>
-    <label for="password">Chef Password</label><input type="password" name="password"/>
-    <input type='submit' value="Log In"/>
+    <div><label for="username">Chef Name</label><input name="username"/></div>
+    <div><label for="password">Chef Password</label><input type="password" name="password"/></div>
+    <div><input type='submit' value="Log In"/></div>
 </form>
 </div>
 <?php

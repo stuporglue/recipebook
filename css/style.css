@@ -109,8 +109,3 @@ ul.recipelist,ul.ingredientlist {
 .count:after {
     content: ')'
 }
-
-/* Admin area forms */
-input {
-    display: block;
-}

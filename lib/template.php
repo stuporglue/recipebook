@@ -140,6 +140,25 @@ function printFooter(){
             <input style='margin-left:-10000px;' name='dosearch' type='submit'/>
         </div>
     </form>
+
+    <!-- Modal -->
+    <div class='modal fade' id='myModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>
+    <div class='modal-dialog' role='document'>
+        <div class='modal-content'>
+        <div class='modal-header'>
+            <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+            <h4 class='modal-title' id='myModalLabel'>Modal title</h4>
+        </div>
+        <div class='modal-body'>
+        </div>
+        <div class='modal-footer'>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
+            <button type='button' class='btn btn-primary' id='savebutton'>Save changes</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js'></script>
 <script src='{$relpath}js/handlebars-v2.0.0.js'></script>
@@ -166,6 +185,7 @@ function printFooter(){
     }
 
     $footer .= "
+
   </body>
   </html>";
     print $footer;

@@ -9,6 +9,15 @@ function getAll(){
     return $res;
 }
 
+function getUnits(){
+    $res = pg_query("SELECT id,name FROM units ORDER BY name");
+    $rows = Array();
+    while($row = pg_fetch_assoc($res)){
+        $rows[] = $row;
+    }
+    return $rows;
+}
+
 function getAllFromCategory($cat){
     $res = pg_query_params('SELECT r.*,c.name AS category FROM recipes r,categories c WHERE ("hide"=false OR "hide" IS NULL) AND r.category=c.id AND c.name=$1 ORDER BY c.name,r.name',Array($cat));
     return $res;

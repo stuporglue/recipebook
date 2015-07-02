@@ -38,13 +38,51 @@ var grid = $("#grid-data").bootgrid({
 });;
 
 function editRecord(e){
-    alert("You pressed edit on row: " + $(this).data("row-id"));
+    $.get($('#grid-data').data('type') + '_form.php?id=' + $(e.target).closest('tr').data('row-id'),function(res){
+        $('#myModal .modal-body').html(res);
+        $('#myModalLabel').html('Edit ' + $('#grid-data').data('type') + " " + $(e.target).closest('tr').data('row-id'));
+    });
+
+    $('#myModal').modal('show');
+
 }
 
 function deleteRecord(e){
-    alert("You pressed delete on row: " + $(this).data("row-id"));
+    var delme = confirm("Do you want to delete row " + $(e.target).closest('tr').data("row-id"));
+    if(delme){
+        var postUrl = $('#grid-data').data('type') + '_form.php';
+        var postData = {
+            'action' : 'delete',
+            'id' : $(e.target).closest('tr').data('row-id')
+        };
+
+        $.post(postUrl,postData).then(function(success){
+            grid.bootgrid('reload');
+        },function(failure){
+            console.log(failure);
+        });
+    }
 }
 
 function addRecord(){
-    alert("You pressed add");
+    $.get($('#grid-data').data('type') + '_form.php',function(res){
+        $('#myModal .modal-body').html(res);
+        $('#myModalLabel').html('Add ' + $('#grid-data').data('type'));
+    });
+
+    $('#myModal').modal('show');
 }
+
+$('#savebutton').on('click', function(){
+    var theForm = $('#myModal form');
+    var postUrl = theForm.attr('action');
+    var postData = theForm.serialize();
+
+    $.post(postUrl,postData).then(function(success){
+        console.log("Success");
+        grid.bootgrid('reload');
+        $('#myModal').modal('hide');
+    },function(failure){
+        console.log(failure);
+    });
+});

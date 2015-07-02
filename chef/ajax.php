@@ -23,6 +23,12 @@ function getPaginatedUnits(){
         u.base_count
         FROM 
         units u LEFT JOIN units b ON u.base_unit = b.id ";
+
+    if(isset($_REQUEST['searchPhrase']) && $_REQUEST['searchPhrase'] != ''){
+        $q .= " WHERE 
+            u.name LIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
+            u.plural LIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " ";
+    }
             
     if(count($_REQUEST['sort']) > 0){
         $q .= " ORDER BY ";
@@ -32,6 +38,8 @@ function getPaginatedUnits(){
         }
         $q .= implode(',',$orders);
     }
+
+
     $q .= " LIMIT " . (int)$_REQUEST['rowCount'] . " OFFSET " . (int)($_REQUEST['rowCount'] * ($_REQUEST['current'] - 1));
 
     $res = pg_query($q);

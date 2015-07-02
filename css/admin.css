@@ -3,3 +3,18 @@ tr th:first-child {
     max-width: 65px;
     width: 65px;
 }
+
+
+/* Admin area forms */
+label,input,select {
+    display: inline-block;
+}
+
+label {
+    width: 20%;
+}
+
+input,select {
+    width: 80%;
+    max-width: 250px;
+}
