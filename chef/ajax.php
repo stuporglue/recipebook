@@ -12,6 +12,9 @@ case 'ingredients':
 case 'categories':
     $res = getStandard('categories',$fieldInfo['categories']);
     break;
+case 'recipes':
+    $res = getPaginatedRecipes();
+    break;
 default:
     http_response_code(404);
     die("this table not yet supported");

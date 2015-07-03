@@ -13,6 +13,21 @@ var grid = $("#grid-data").bootgrid({
         "commands": function(column, row) {
             return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-pencil\"></span></button> " + 
                 "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-trash-o\"></span></button>";
+        },
+        "quick": function(column,row){
+            if(row.quick == 't'){
+                return "<span class='glyphicon glyphicon-time'></span>";
+            }
+        },
+        "favorite": function(column,row){
+            if(row.favorite == 't'){
+                return "<span class='glyphicon glyphicon-heart'></span>";
+            }
+        },
+        "hide": function(column,row){
+            if(row.hide == 't'){
+                return "<span class='glyphicon glyphicon-eye-close'></span>";
+            }
         }
     },
    templates: {

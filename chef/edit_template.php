@@ -22,12 +22,22 @@ $fieldInfo = Array(
     'categories' => Array(
         Array( 'id' => 'name', 'label' => 'Name'),
         Array( 'id' => 'label','label' => 'Label'),
-    )
+    ),
+    'recipes' => Array(
+        Array( 'id' => 'name', 'label' => 'Name'),
+        Array( 'id' => 'about', 'label' => 'About'),
+        Array( 'id' => 'category', 'label' => 'Category'),
+        Array( 'id' => 'quick', 'label' => 'Quick', 'formatter' => 'quick'),
+        Array( 'id' => 'display_name', 'label' => 'Display Name'),
+        Array( 'id' => 'hide', 'label' => 'Hide', 'formatter' => 'hide'),
+        Array( 'id' => 'date_added', 'label' => 'Date Added'),
+        Array( 'id' => 'favorite', 'label' => 'Favorite', 'formatter' => 'favorite')
+    ),
 );
 
 
 function editPage($table,$fields){
-    printHeader("Manage Units");
+    printHeader("Manage " . ucfirst($table));
     printEditorInterface($table,$fields);
     printFooter();
 }
@@ -35,7 +45,7 @@ function editPage($table,$fields){
 function printEditorInterface($type,$fields){
     print "
     <div class='jumbotron'>
-    <h1>Manage $type</h1>
+    <h1>Manage " . ucfirst($type) . "</h1>
     </div>
     <div>
         <table id='grid-data' data-type='$type' class='table table-condensed table-hover table-striped'>
@@ -131,6 +141,52 @@ function getPaginatedUnits(){
     return wrapUp($q,$where);
 }
 
+function getPaginatedRecipes(){
+    $q = "SELECT
+        r.id,
+        r.name,
+        r.about,
+        c.label,
+        r.quick,
+        r.display_name,
+        r.hide,
+        r.date_added,
+        r.favorite
+        FROM
+        recipes r LEFT JOIN categories c ON r.category = c.id ";
+
+    $where = "";
+    if(isset($_REQUEST['searchPhrase']) && $_REQUEST['searchPhrase'] != ''){
+    $where = " WHERE 
+        r.name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
+        r.about ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
+        r.instructions ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
+        c.name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
+        r.display_name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') ;
+    }
+
+    if($_REQUEST['searchPhrase'] == 'favorite'){
+        $where .= " OR r.favorite ";
+    }
+    if($_REQUEST['searchPhrase'] == 'quick'){
+        $where = " OR r.quick ";
+    }
+    if($_REQUEST['searchPhrase'] == 'hidden'){
+        $where = " OR r.hidden ";
+    }
+
+    if(strpos($_REQUEST['searchPhrase'],'is:') === 0){
+        preg_match('|is:\s*(.*)\s*$|',$_REQUEST['searchPhrase'],$matches);
+        $where = " WHERE r." . pg_escape_identifier($matches[1]);
+    }
+
+
+    error_log($q . $where);
+
+
+    return wrapUp($q,$where);
+}
+
 function wrapUp($q,$where){
     $q .= $where;
 
@@ -161,4 +217,3 @@ function wrapUp($q,$where){
         'total' => (int)$count['count']
     );
 }
-

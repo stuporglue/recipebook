@@ -19,6 +19,7 @@ Welcome to the chef area
 <ul>
 <li><a href='categories.php'>Categories</a></li>
 <li><a href='ingredients.php'>Ingredients</a></li>
+<li><a href='recipes.php'>Recipes</a></li>
 <li><a href='units.php'>Units</a></li>
 </ul>
 </div>
