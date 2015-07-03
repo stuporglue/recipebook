@@ -1,39 +1,6 @@
 <?php
-
-require_once('../lib/db.inc');
-
-
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-    $fields = Array();
-    $values = Array();
-    foreach($_POST as $k => $v){
-        if($k != 'id'){
-            $fields[] = pg_escape_identifier($k);
-            $values[] = pg_escape_literal($v);
-        }
-    }
-
-    if(isset($_POST['action']) && $_POST['action'] == 'delete'){
-        $action = "DELETE FROM units WHERE id=" . pg_escape_literal($_POST['id']);
-    }else if(isset($_POST['id']) && $_POST['id'] != ''){
-        $action = 'UPDATE units (' . implode(',',$fields) . ') = ('. implode(',',$values) .') WHERE id=' . pg_escape_literal($_POST['id']) . ' RETURNING id';
-    }else{
-        $action = 'INSERT INTO units (' . implode(',',$fields) . ') VALUES (' . implode(',',$values) . ') RETURNING id';
-    }
-    $res = pg_query($action);
-
-    header("Content-type: application/json");
-    if($res){
-        $row = pg_fetch_assoc($res);
-        print json_encode($row);
-    }else{
-        http_response_code(500);
-        print json_encode(Array("success" => FALSE,"msg" => pg_last_error()));
-    }
-
-    exit();
-}
+require_once('edit_template.php');
+processPost('units');
 
 if(isset($_GET['id'])){
     $updateme = getUnit($_GET['id']);

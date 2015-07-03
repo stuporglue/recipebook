@@ -75,6 +75,11 @@ function getUnit($id){
     return pg_fetch_assoc($res);
 }
 
+function getIngredient($id){
+    $res = pg_query_params("SELECT * FROM ingredients WHERE id=$1",Array($id));
+    return pg_fetch_assoc($res);
+}
+
 function getAllIngredients(){
     $res = pg_query_params("SELECT i.name AS ingredient,COUNT(r.recipe_id) AS count
         FROM 

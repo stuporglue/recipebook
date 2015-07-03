@@ -3,6 +3,7 @@
     RewriteBase /
 
     # Strip all trailing slashes
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.+)/$ $1 [R=301,L]
 
 
