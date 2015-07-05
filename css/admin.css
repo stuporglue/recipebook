@@ -18,3 +18,11 @@ input,select {
     width: 80%;
     max-width: 250px;
 }
+
+.idcol {
+    width: 75px;
+}
+
+.widercol {
+    width: 350px;
+}

@@ -1,16 +1,17 @@
 <?php
-require_once('db.inc');
-require_once('parsedown/Parsedown.php');
-require_once('lib/ingredients.php');
+require_once(__DIR__ . '/db.inc');
+require_once(__DIR__ . '/parsedown/Parsedown.php');
+require_once(__DIR__ . '/ingredients.php');
 
 class recipe {
     function __construct($name_or_id){
-        $res = pg_query_params('SELECT r.*,c.name AS category,c.label AS catlabel FROM recipes r,categories c WHERE (r.name=$1 OR r.id=$2) AND r.category=c.id',Array($name_or_id,intval($name_or_id,10)));
+        $res = pg_query_params('SELECT r.*,c.id AS cid,c.name AS category,c.label AS catlabel FROM recipes r,categories c WHERE (r.name=$1 OR r.id=$2) AND r.category=c.id',Array($name_or_id,intval($name_or_id,10)));
         if(!$res){
             var_dump($res);
             throw new Exception("No such recipe");
         }
         $row = pg_fetch_assoc($res);
+        $this->updateme = $row;
         foreach($row as $k => $v){
             $this->$k = $v;
         }
@@ -31,20 +32,45 @@ class recipe {
         return $this->ingredients;
     }
 
-    function getSubrecipes(){
-        if(isset($this->subrecipes)){
+    function getSubrecipes($justDbArray = FALSE){
+        if(isset($this->subrecipes) && !$justDbArray){
             return $this->subrecipes;
         }
-        $res = pg_query_params("SELECT * FROM recipe_recipe WHERE parent=$1",Array($this->id));
+
+        $res = pg_query_params("
+            SELECT 
+            rr.*,
+            r1.name AS parent_name,
+            r2.name AS child_name
+            FROM 
+            recipe_recipe rr,
+            recipes r1,
+            recipes r2
+            WHERE 
+            rr.parent=$1 AND
+            rr.parent = r1.id AND
+            rr.child = r2.id
+            ", Array($this->id));
         $this->subrecipes = Array();
+
+        $dbArray = Array();
         while($row = pg_fetch_assoc($res)){
-            $this->subrecipes[$row['childname']] = new recipe($row['child']);
+            if($justDbArray){
+                $dbArray[] = $row;
+            }else{
+                $this->subrecipes[$row['childname']] = new recipe($row['child']);
+            }
         }
+        if($justDbArray){
+            return $dbArray;
+        }
+
         $more = Array();
         foreach($this->subrecipes as $sub){
             $more = array_merge($more,$sub->subrecipes);
         }
         $this->subrecipes = array_merge($this->subrecipes,$more);
+
         return $this->subrecipes;
     }
 

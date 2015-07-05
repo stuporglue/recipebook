@@ -14,20 +14,18 @@ var grid = $("#grid-data").bootgrid({
             return "<button type=\"button\" class=\"btn btn-xs btn-default command-edit\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-pencil\"></span></button> " + 
                 "<button type=\"button\" class=\"btn btn-xs btn-default command-delete\" data-row-id=\"" + row.id + "\"><span class=\"fa fa-trash-o\"></span></button>";
         },
-        "quick": function(column,row){
+        "tags" : function(column,row){
+            var tags = [];
             if(row.quick == 't'){
-                return "<span class='glyphicon glyphicon-time'></span>";
+                tags.push("<span title='Quick' class='glyphicon glyphicon-time'></span>");
             }
-        },
-        "favorite": function(column,row){
             if(row.favorite == 't'){
-                return "<span class='glyphicon glyphicon-heart'></span>";
+                tags.push("<span title='Favorite' class='glyphicon glyphicon-heart'></span>");
             }
-        },
-        "hide": function(column,row){
             if(row.hide == 't'){
-                return "<span class='glyphicon glyphicon-eye-close'></span>";
+                tags.push("<span title='Hidden' class='glyphicon glyphicon-eye-close'></span>");
             }
+            return tags.join(' ');
         }
     },
    templates: {
@@ -55,7 +53,7 @@ var grid = $("#grid-data").bootgrid({
 function editRecord(e){
     $.get($('#grid-data').data('type') + '_form.php?id=' + $(e.target).closest('tr').data('row-id'),function(res){
         $('#myModal .modal-body').html(res);
-        $('#myModalLabel').html('Edit ' + $('#grid-data').data('type') + " " + $(e.target).closest('tr').data('row-id'));
+        $('#myModalLabel').html('Edit ' + $('#grid-data').data('type') + " #" + $(e.target).closest('tr').data('row-id'));
     });
 
     $('#myModal').modal('show');

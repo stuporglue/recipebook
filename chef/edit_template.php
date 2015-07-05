@@ -24,14 +24,11 @@ $fieldInfo = Array(
         Array( 'id' => 'label','label' => 'Label'),
     ),
     'recipes' => Array(
-        Array( 'id' => 'name', 'label' => 'Name'),
-        Array( 'id' => 'about', 'label' => 'About'),
+        Array( 'id' => 'name', 'label' => 'Name', 'css-class' => 'widercol', 'header-css-class' => 'widercol'),
         Array( 'id' => 'category', 'label' => 'Category'),
-        Array( 'id' => 'quick', 'label' => 'Quick', 'formatter' => 'quick'),
+        Array( 'id' => 'tags', 'label' => 'Tags', 'formatter' => 'tags'),
         Array( 'id' => 'display_name', 'label' => 'Display Name'),
-        Array( 'id' => 'hide', 'label' => 'Hide', 'formatter' => 'hide'),
-        Array( 'id' => 'date_added', 'label' => 'Date Added'),
-        Array( 'id' => 'favorite', 'label' => 'Favorite', 'formatter' => 'favorite')
+
     ),
 );
 
@@ -52,7 +49,7 @@ function printEditorInterface($type,$fields){
             <thead>
                 <tr>
                     <th data-css='slimmer' data-column-id='commands' data-formatter='commands' data-sortable='false'>Edit</th>
-                    <th data-column-id='id' data-order='asc' data-identifier='true' data-type='numeric'>ID</th>
+                    <th data-column-id='id' data-css-class='idcol' data-header-css-class='idcol' data-order='asc' data-identifier='true' data-type='numeric'>ID</th>
                     ";
     foreach($fields as $field){
         print "<th data-column-id='{$field['id']}'";
@@ -146,7 +143,7 @@ function getPaginatedRecipes(){
         r.id,
         r.name,
         r.about,
-        c.label,
+        c.label AS category,
         r.quick,
         r.display_name,
         r.hide,
@@ -162,6 +159,7 @@ function getPaginatedRecipes(){
         r.about ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
         r.instructions ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
         c.name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
+        c.label ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
         r.display_name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') ;
     }
 
@@ -216,4 +214,66 @@ function wrapUp($q,$where){
         'rows' => $rows,
         'total' => (int)$count['count']
     );
+}
+
+function makeIngredientRow($ingredient = FALSE){
+
+    if(!$ingredient){
+        $ingredient = Array(
+            'id' => '',
+            'quantity' => '',
+            'unit_id' => '',
+            'premodifier' => '',
+            'ingredient_id' => '',
+            'postmodifier' => '',
+        );
+    }
+
+    $ingredient = array_map('htmlentities',$ingredient);
+
+    return "<tr>
+        <td>
+            <input name='i_id[]' type='hidden' value=\"{$ingredient['id']}\">
+            <input type='checkbox' name='i_delete[]'>
+        </td>
+        <td><input name='i_quantity[]' value=\"{$ingredient['quantity']}\"></td>
+        <td>
+            <input type='hidden' name='i_unit_id[]' value=\"{$ingredient['unit_id']}\">
+            <input value=\"{$ingredient['unit']}\">
+        </td>
+        <td><input name='i_premodifier[]' value=\"{$ingredient['premodifier']}\"></td>
+        <td>
+            <input type='hidden' name='i_ingredient_id[]' value=\"{$ingredient['ingredient_id']}\">
+            <input value=\"{$ingredient['name']}\">
+        </td>
+        <td><input name='i_postmodifier[]' value=\"{$ingredient['postmodifier']}\"></td>
+    </tr>";
+}
+
+function makeSubRecipes($subrecipe = FALSE){
+    if(!$subrecipe){
+        $subrecipe = Array(
+            'id' => '',
+            'parent' => '',
+            'child' => '',
+            'parent_name' => '',
+            'child_name' => ''
+            );
+    } 
+
+    $subrecipe = array_map('htmlentities',$subrecipe);
+
+    return "<tr>
+        <td>
+            <input name='s_id[]' type='hidden' value=\"{$subrecipe['id']}\">
+            <input type='checkbox' name='s_delete[]'>
+        </td>
+        <td>
+            <input type='hidden' name='s_child[]' value=\"{$subrecipe['child']}\">
+            <input value=\"{$subrecipe['child_name']}\">
+        </td>
+        <td>
+            <input name='childname' value=\"{$subrecipe['childname']}\">
+        </td>
+        </tr>";
 }
