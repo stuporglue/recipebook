@@ -70,21 +70,12 @@ function printEditorInterface($type,$fields){
 function processPost($table){
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-        $fields = Array();
-        $values = Array();
-        foreach($_POST as $k => $v){
-            if($k != 'id'){
-                $fields[] = pg_escape_identifier($k);
-                $values[] = pg_escape_literal($v);
-            }
-        }
+        $kvPairs = updateOrInserts($_POST);
 
         if(isset($_POST['action']) && $_POST['action'] == 'delete'){
             $action = "DELETE FROM $table WHERE id=" . pg_escape_literal($_POST['id']);
-        }else if(isset($_POST['id']) && $_POST['id'] != ''){
-            $action = "UPDATE $table (" . implode(',',$fields) . ') = ('. implode(',',$values) .') WHERE id=' . pg_escape_literal($_POST['id']) . ' RETURNING id';
         }else{
-            $action = "INSERT INTO $table (" . implode(',',$fields) . ') VALUES (' . implode(',',$values) . ') RETURNING id';
+            $action = updateOrInserts($_POST);
         }
         $res = pg_query($action);
 
@@ -239,12 +230,12 @@ function makeIngredientRow($ingredient = FALSE){
         <td><input name='i_quantity[]' value=\"{$ingredient['quantity']}\"></td>
         <td>
             <input type='hidden' name='i_unit_id[]' value=\"{$ingredient['unit_id']}\">
-            <input value=\"{$ingredient['unit']}\">
+            <input data-source='ta_unit' value=\"{$ingredient['unit']}\">
         </td>
         <td><input name='i_premodifier[]' value=\"{$ingredient['premodifier']}\"></td>
         <td>
             <input type='hidden' name='i_ingredient_id[]' value=\"{$ingredient['ingredient_id']}\">
-            <input value=\"{$ingredient['name']}\">
+            <input data-source='ta_ingredient' value=\"{$ingredient['name']}\">
         </td>
         <td><input name='i_postmodifier[]' value=\"{$ingredient['postmodifier']}\"></td>
     </tr>";
@@ -270,10 +261,136 @@ function makeSubRecipes($subrecipe = FALSE){
         </td>
         <td>
             <input type='hidden' name='s_child[]' value=\"{$subrecipe['child']}\">
-            <input value=\"{$subrecipe['child_name']}\">
+            <input data-source='ta_childrecipe' value=\"{$subrecipe['child_name']}\">
         </td>
         <td>
-            <input name='childname' value=\"{$subrecipe['childname']}\">
+            <input name='s_childname[]' value=\"{$subrecipe['childname']}\">
         </td>
         </tr>";
+}
+
+function processRecipePost(){
+    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+        return;
+    }
+
+    $ingredients = Array();
+    $subrecipes = Array();
+
+    // Convert i_ and s_ post arrays into ingredient and subrecipe arrays
+    foreach($_POST as $k => $val){
+        if(strpos($k,'i_') === 0){
+            $realk = str_replace('i_','',$k);
+            foreach($val as $kk => $vv){
+                $ingredients[$kk][$realk] = $vv;
+            }
+            unset($_POST[$k]);
+        }
+
+         if(strpos($k,'s_') === 0){
+            $realk = str_replace('s_','',$k);
+            foreach($val as $kk => $vv){
+                $subrecipes[$kk][$realk] = $vv;
+            }
+            unset($_POST[$k]);
+        }
+    }
+
+    // If we're deleting, remove any ingredients and sub-recipes that aren't already in the db
+    if(isset($_POST['action']) && $_POST['action'] == 'delete'){
+        foreach($ingredients as $k => $v){
+            if(!$v['id']){
+                unset($ingredients[$k]); 
+            }
+        }
+        foreach($subrecipes as $k => $v){
+            if(!$v['id']){
+                unset($subrecipes[$k]);
+            }
+        }
+    }
+
+
+    // For delete -- we delete our sub-stuff, then our recipe
+    if(isset($_POST['action']) && $_POST['action'] == 'delete'){
+        foreach($subrecipes as $k => $subr){
+            $action = "DELETE FROM recipe_recipe WHERE id=" . pg_escape_literal($subr['id']);
+            $res = pg_query($action);
+        }
+
+        foreach($ingredients as $k => $ing){
+            $action = "DELETE FROM recipe_ingredient WHERE id=" . pg_escape_literal($ing['id']);
+            $res = pg_query($action);
+        }
+
+        $action = "DELETE FROM recipe WHERE id=" . pg_escape_literal($_POST['id']);
+        return;
+    }
+
+    $_POST['quick'] = ($_POST['quick'] == 'on' ? TRUE : FALSE);
+    $_POST['favorite'] = ($_POST['favorite'] == 'on' ? TRUE : FALSE);
+    $_POST['hide'] = ($_POST['hide'] == 'on' ? TRUE : FALSE);
+
+    $ingredients = array_filter($ingredients,function($ingredient){ return count(array_filter($ingredient)); });
+    $subrecipes = array_filter($subrecipes,function($subrecipe){ return count(array_filter($subrecipe)); });
+
+    print_r($_POST);
+    print_r($ingredients);
+    print_r($subrecipes);
+    exit();
+
+    // For update/insert we update/insert the recipe and verify that we have the recipe ID, then we update/insert the other stuff
+    $action = updateOrInserts($_POST,'recipes');
+    $res = pg_query($action);
+    $recipe_row = pg_fetch_assoc($res);
+
+    foreach($ingredients as $k => $ingredient){
+        if(count(array_filter($ingredient)) === 0){
+            continue;
+        }
+        $ingredient['recipe_id'] = $recipe_row['id'];
+        $action = updateOrInserts($ingredient,'recipe_ingredient');
+        pg_query($action);
+    }
+
+    foreach($subrecipes as $k => $subrecipe){
+        if(count(array_filter($subrecipe)) === 0){
+            continue;
+        }
+        $subrecipe['parent'] = $recipe_row['id'];
+        $action = updateOrInserts($subrecipe,'recipe_recipe');
+        pg_query($action);
+    }
+
+    header("Content-type: application/json");
+    if($recipe_row){
+        print json_encode($recipe_row);
+    }else{
+        http_response_code(500);
+        print json_encode(Array("success" => FALSE,"msg" => pg_last_error()));
+    }
+
+    exit();
+}
+
+function updateOrInserts($data,$table){
+    $fields = Array();
+    $values = Array();
+
+    foreach($data as $k => $v){
+        if($k != 'id'){
+            $fields[] = pg_escape_identifier($k);
+            $values[] = pg_escape_literal($v);
+        }
+    }
+
+    $kvPairs = Array('fields' => "(" . implode(',',$fields) . ")",'values' => "(" . implode(',',$values) . ")");
+
+    if(isset($data['id']) && $data['id'] != ''){
+        $action = "UPDATE $table {$kvPairs['fields']} = {$kvPairs['values']} WHERE id=" . pg_escape_literal($_POST['id']) . " RETURNING id";
+    }else{
+        $action = "INSERT INTO $table {$kvPairs['fields']} VALUES {$kvPairs['values']} RETURNING id";
+    }
+
+    return $action;
 }

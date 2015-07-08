@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 
 function handler($errno,$errstr,$errfile,$errline,$errcontext){
     if(isset($_SERVER['HTTP_REFERER'])){
@@ -107,8 +109,21 @@ $header = "<!DOCTYPE html>
                 <li class='".($activeCat == 'tips' ? 'active' : '')."'><a href='{$relpath}tips'>Secret Tips</a></li>
                 <li class='".($activeCat == 'ingredients' ? 'active' : '')."'><a href='{$relpath}ingredients'>Ingredients</a></li>
               </ul>
-            </li>
-          </ul>
+              </li>";
+
+            if($_SESSION['loggedin'] === TRUE){
+                $header .= "<li class='dropdown'>
+                    <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Chef's Area<span class='caret'></span></a>
+                    <ul class='dropdown-menu' role='menu'>
+                        <li><a href='{$relpath}chef/categories.php'>Categories</a></li>
+                        <li><a href='{$relpath}chef/ingredients.php'>Ingredients</a></li>
+                        <li><a href='{$relpath}chef/recipes.php'>Recipes</a></li>
+                        <li><a href='{$relpath}chef/units.php'>Units</a></li>
+                    </ul>
+                    </li>";
+            }
+
+            $header .= "</ul>
             <form class='sitesearch hidden-xs navbar-form navbar-right' role='search' method='post' action='{$relpath}search'>
                 <div class='form-group has-feedback'>
                     <input type='text' placeholder='Search' class='typeahead form-control searchbox' name='searchval'>

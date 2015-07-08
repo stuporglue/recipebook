@@ -17,7 +17,6 @@ var ta = $('.searchbox').typeahead({
         suggestion: Handlebars.compile("<div class='searchsuggestion {{kind}}'><h2><span class='kind'></span>{{{label}}}</h2><p class='wherefound'>{{{search}}}</p></div>")
     }
 });
-$('.twitter-typeahead').css('display','block');
 
 ta.on('typeahead:closed', function(){
     $('.tt-dataset-searcher').scrollTop(0);
@@ -58,6 +57,8 @@ if (window.navigator.userAgent.match(/iPad/i) || window.navigator.userAgent.matc
     $('.smallsearch').css('top','8px');
 }
 
+/*
+ * What was this for? IOS bug maybe?
 $('a[href^=#]').on('click',function(e){
     window.document.location = e.target.href;
     var distToTop = $(e.target.href.replace(/.*#/,'#')).offset().top - $(window).scrollTop();
@@ -67,4 +68,5 @@ $('a[href^=#]').on('click',function(e){
     e.preventDefault();
     return false;
 });
+*/
 

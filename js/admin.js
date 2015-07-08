@@ -48,16 +48,14 @@ var grid = $("#grid-data").bootgrid({
     grid.find(".command-edit").on("click", editRecord);
     grid.find(".command-delete").on("click",deleteRecord);
     $(".command-add").on("click",addRecord);
-});;
+});
 
 function editRecord(e){
     $.get($('#grid-data').data('type') + '_form.php?id=' + $(e.target).closest('tr').data('row-id'),function(res){
         $('#myModal .modal-body').html(res);
         $('#myModalLabel').html('Edit ' + $('#grid-data').data('type') + " #" + $(e.target).closest('tr').data('row-id'));
+        $('#myModal').modal('show');
     });
-
-    $('#myModal').modal('show');
-
 }
 
 function deleteRecord(e){
@@ -81,9 +79,8 @@ function addRecord(){
     $.get($('#grid-data').data('type') + '_form.php',function(res){
         $('#myModal .modal-body').html(res);
         $('#myModalLabel').html('Add ' + $('#grid-data').data('type'));
+        $('#myModal').modal('show');
     });
-
-    $('#myModal').modal('show');
 }
 
 $('#savebutton').on('click', function(){
@@ -99,3 +96,43 @@ $('#savebutton').on('click', function(){
         console.log(failure);
     });
 });
+
+function setupAutoComplete(){
+    $('[data-source=ta_ingredient]').typeahead({},{
+        name: 'ta_ingredients',
+        displayKey: 'name',
+        source: function(query,cb){
+            $.getJSON(relpath + 'chef/ta.php?t=ingredients&q=' + encodeURIComponent(query),cb); 
+        }
+    });
+
+    $('[data-source=ta_unit]').typeahead({},{
+        name: 'ta_source',
+        displayKey: 'name',
+        source: function(query,cb){
+            $.getJSON(relpath + 'chef/ta.php?t=units&q=' + encodeURIComponent(query),cb); 
+        }
+    });
+
+    $('[data-source=ta_childrecipe]').typeahead({},{
+        name: 'ta_childrecipe',
+        displayKey: 'name',
+        source: function(query,cb){
+            $.getJSON(relpath + 'chef/ta.php?t=childrecipe&q=' + encodeURIComponent(query),cb); 
+        }
+    });
+
+    $('[data-source=ta_ingredient]').bind('typeahead:selected', function(obj, datum, name) { 
+        $(obj.target).closest('td').find('input[type=hidden]').val(datum.id);
+    });
+
+    $('[data-source=ta_unit]').bind('typeahead:selected', function(obj, datum, name) { 
+        $(obj.target).closest('td').find('input[type=hidden]').val(datum.id);
+    });
+
+    $('[data-source=ta_childrecipe]').bind('typeahead:selected', function(obj, datum, name) { 
+        $(obj.target).closest('td').find('input[type=hidden]').val(datum.id);
+    });
+}
+
+$('#myModal').on('shown.bs.modal',setupAutoComplete);

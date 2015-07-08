@@ -109,3 +109,7 @@ ul.recipelist,ul.ingredientlist {
 .count:after {
     content: ')'
 }
+
+.twitter-typeahead {
+    display: block;
+}

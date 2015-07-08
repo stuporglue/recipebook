@@ -1,7 +1,7 @@
 <?php
 require_once('edit_template.php');
 require_once('../lib/recipe.php');
-processPost('recipes');
+processRecipePost();
 
 if(isset($_GET['id'])){
     $recipe = new recipe($_GET['id']);
@@ -51,8 +51,10 @@ if(isset($_GET['id'])){
     <th>PostModifier</th>
 </tr>
 <?php
-foreach($recipe->getIngredients() as $ingredient){
-    print makeIngredientRow($ingredient);
+if($recipe){
+    foreach($recipe->getIngredients() as $ingredient){
+        print makeIngredientRow($ingredient);
+    }
 }
 print makeIngredientRow();
 ?>
@@ -64,8 +66,10 @@ print makeIngredientRow();
     <th>Child Name</th> 
 </tr>
 <?php
-foreach($recipe->getSubrecipes(TRUE) as $subrecipe){
-    print makeSubRecipes($subrecipe);
+if($recipe){
+    foreach($recipe->getSubrecipes(TRUE) as $subrecipe){
+        print makeSubRecipes($subrecipe);
+    }
 }
 print makeSubRecipes();
 ?>
