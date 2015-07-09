@@ -98,41 +98,32 @@ $('#savebutton').on('click', function(){
 });
 
 function setupAutoComplete(){
-    $('[data-source=ta_ingredient]').typeahead({},{
-        name: 'ta_ingredients',
-        displayKey: 'name',
-        source: function(query,cb){
-            $.getJSON(relpath + 'chef/ta.php?t=ingredients&q=' + encodeURIComponent(query),cb); 
-        }
-    });
+    $('[data-source]:not(.tt-hint):not(.tt-input)').each(function(a,b){
+        b = $(b);
+        var url = b.data('source');
+        b.typeahead({},{
+            name: b.data('source'),
+            displayKey: 'name',
+            source: function(query,cb){
+                $.getJSON(relpath + 'chef/ta.php?t=' + b.data('source').replace('ta_','') + '&q=' + encodeURIComponent(query),cb);
+            }
+        });
 
-    $('[data-source=ta_unit]').typeahead({},{
-        name: 'ta_source',
-        displayKey: 'name',
-        source: function(query,cb){
-            $.getJSON(relpath + 'chef/ta.php?t=units&q=' + encodeURIComponent(query),cb); 
-        }
-    });
-
-    $('[data-source=ta_childrecipe]').typeahead({},{
-        name: 'ta_childrecipe',
-        displayKey: 'name',
-        source: function(query,cb){
-            $.getJSON(relpath + 'chef/ta.php?t=childrecipe&q=' + encodeURIComponent(query),cb); 
-        }
-    });
-
-    $('[data-source=ta_ingredient]').bind('typeahead:selected', function(obj, datum, name) { 
-        $(obj.target).closest('td').find('input[type=hidden]').val(datum.id);
-    });
-
-    $('[data-source=ta_unit]').bind('typeahead:selected', function(obj, datum, name) { 
-        $(obj.target).closest('td').find('input[type=hidden]').val(datum.id);
-    });
-
-    $('[data-source=ta_childrecipe]').bind('typeahead:selected', function(obj, datum, name) { 
-        $(obj.target).closest('td').find('input[type=hidden]').val(datum.id);
+        b.bind('typeahead:selected', function(obj, datum, name) { 
+            $(obj.target).closest('td').find('input[type=hidden]').val(datum.id);
+        });
     });
 }
 
 $('#myModal').on('shown.bs.modal',setupAutoComplete);
+
+$('#myModal').on('change','tr.autonewrow input',function(e){
+    var tr = $(e.target).closest('tr');
+    tr.find('input').typeahead('close');
+    var template = templates[tr.data('type')];
+    if(templates !== undefined){
+        tr.after(template);
+    }
+    setupAutoComplete();
+    tr.removeClass('autonewrow');
+});

@@ -26,3 +26,8 @@ input,select {
 .widercol {
     width: 350px;
 }
+
+#myModal .modal-body {
+    max-height: 80vh;
+    overflow: auto;
+}

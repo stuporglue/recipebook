@@ -75,3 +75,10 @@ print makeSubRecipes();
 ?>
 </table>
 </form>
+<script>
+templates = <?php 
+print json_encode(Array(
+'ingredient' => makeIngredientRow(),
+'subrecipe' => makeSubRecipes()
+));
+?>;</script>

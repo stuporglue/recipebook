@@ -208,6 +208,7 @@ function wrapUp($q,$where){
 }
 
 function makeIngredientRow($ingredient = FALSE){
+    $autoNew = ($ingredient === FALSE ? 'autonewrow' : '');
 
     if(!$ingredient){
         $ingredient = Array(
@@ -222,7 +223,7 @@ function makeIngredientRow($ingredient = FALSE){
 
     $ingredient = array_map('htmlentities',$ingredient);
 
-    return "<tr>
+    return "<tr data-type='ingredient' class='$autoNew'>
         <td>
             <input name='i_id[]' type='hidden' value=\"{$ingredient['id']}\">
             <input type='checkbox' name='i_delete[]'>
@@ -230,7 +231,7 @@ function makeIngredientRow($ingredient = FALSE){
         <td><input name='i_quantity[]' value=\"{$ingredient['quantity']}\"></td>
         <td>
             <input type='hidden' name='i_unit_id[]' value=\"{$ingredient['unit_id']}\">
-            <input data-source='ta_unit' value=\"{$ingredient['unit']}\">
+            <input data-source='ta_units' value=\"{$ingredient['unit']}\">
         </td>
         <td><input name='i_premodifier[]' value=\"{$ingredient['premodifier']}\"></td>
         <td>
@@ -242,6 +243,7 @@ function makeIngredientRow($ingredient = FALSE){
 }
 
 function makeSubRecipes($subrecipe = FALSE){
+    $autoNew = ($subrecipe === FALSE ? 'autonewrow' : '');
     if(!$subrecipe){
         $subrecipe = Array(
             'id' => '',
@@ -254,7 +256,7 @@ function makeSubRecipes($subrecipe = FALSE){
 
     $subrecipe = array_map('htmlentities',$subrecipe);
 
-    return "<tr>
+    return "<tr data-type='subrecipe' class='$autoNew'>
         <td>
             <input name='s_id[]' type='hidden' value=\"{$subrecipe['id']}\">
             <input type='checkbox' name='s_delete[]'>
