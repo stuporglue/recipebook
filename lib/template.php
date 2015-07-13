@@ -108,7 +108,7 @@ $header = "<!DOCTYPE html>
               </ul>
               </li>";
 
-            if($_SESSION['loggedin'] === TRUE){
+            if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === TRUE){
                 $header .= "<li class='dropdown'>
                     <a href='#' class='dropdown-toggle' data-toggle='dropdown'>Chef's Area<span class='caret'></span></a>
                     <ul class='dropdown-menu' role='menu'>

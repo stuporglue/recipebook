@@ -10,7 +10,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
     }
 }
 
-if($_SESSION['loggedin'] === TRUE){
+if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === TRUE){
     header("Location:home.php");
     exit();
 }

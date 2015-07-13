@@ -252,7 +252,8 @@ function makeSubRecipes($subrecipe = FALSE){
             'parent' => '',
             'child' => '',
             'parent_name' => '',
-            'child_name' => ''
+            'child_name' => '',
+            'childname' => ''
             );
     } 
 
@@ -268,7 +269,7 @@ function makeSubRecipes($subrecipe = FALSE){
             <input data-source='ta_childrecipe' value=\"{$subrecipe['child_name']}\">
         </td>
         <td>
-            <input name='s_childname[]' value=\"{$subrecipe['child_name']}\">
+            <input name='s_childname[]' value=\"{$subrecipe['childname']}\">
         </td>
         </tr>";
 }
@@ -360,7 +361,7 @@ function processRecipePost(){
             continue;
         }
         $ingredient['recipe_id'] = $recipe_row['id'];
-        $action = updateOrInserts($ingredient,'recipe_ingredient');
+        $action = updateOrInserts($ingredient,'recipe_ingredient',$ingredient['id']);
         pg_query($action);
     }
 
@@ -369,7 +370,7 @@ function processRecipePost(){
             continue;
         }
         $subrecipe['parent'] = $recipe_row['id'];
-        $action = updateOrInserts($subrecipe,'recipe_recipe');
+        $action = updateOrInserts($subrecipe,'recipe_recipe',$subrecipe['id']);
         pg_query($action);
     }
 
@@ -384,12 +385,16 @@ function processRecipePost(){
     exit();
 }
 
-function updateOrInserts($data,$table){
+function updateOrInserts($data,$table,$tableKey = FALSE){
     $fields = Array();
     $values = Array();
 
+    if($tableKey === FALSE){
+        $tableKey = $_POST['id'];
+    }
+
     foreach($data as $k => $v){
-        if($k != 'id' && !empty($v)){
+        if($k != 'id' && !(empty($v) && $v !== 0)){
             $fields[] = pg_escape_identifier($k);
             $values[] = pg_escape_literal($v);
         }
@@ -404,7 +409,7 @@ function updateOrInserts($data,$table){
 
         $action = "UPDATE $table SET ";
         $action .= implode(', ',$setPairs);
-        $action .= " WHERE id=" . pg_escape_literal($_POST['id']) . " RETURNING id";
+        $action .= " WHERE id=" . pg_escape_literal($tableKey) . " RETURNING id";
     }else{
         $kvPairs = Array('fields' => "(" . implode(',',$fields) . ")",'values' => "(" . implode(',',$values) . ")");
         $action = "INSERT INTO $table {$kvPairs['fields']} VALUES {$kvPairs['values']} RETURNING id";
