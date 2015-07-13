@@ -31,3 +31,14 @@ input,select {
     max-height: 80vh;
     overflow: auto;
 }
+
+.iframepreview {
+    height: 500px;
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    resize:vertical;
+    height: 200px;
+}

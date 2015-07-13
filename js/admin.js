@@ -26,6 +26,9 @@ var grid = $("#grid-data").bootgrid({
                 tags.push("<span title='Hidden' class='glyphicon glyphicon-eye-close'></span>");
             }
             return tags.join(' ');
+        },
+        "recipe-link" : function(column,row){
+            return "<a onclick='return previewLink(this);' href=\"../recipe/" + encodeURI(row.name) + "\">" + $('<div>').text(row.name).html() + "</a>";
         }
     },
    templates: {
@@ -50,10 +53,20 @@ var grid = $("#grid-data").bootgrid({
     $(".command-add").on("click",addRecord);
 });
 
+
+function previewLink(link){
+    $('#myModal .modal-body').html('<iframe class="iframepreview" src="' + $(link).attr('href') + '"></iframe>');
+    $('#myModalLabel').html('Preview of ' + $(link).text());
+    $('#savebutton').hide();
+    $('#myModal').modal('show');
+    return false;
+}
+
 function editRecord(e){
     $.get($('#grid-data').data('type') + '_form.php?id=' + $(e.target).closest('tr').data('row-id'),function(res){
         $('#myModal .modal-body').html(res);
         $('#myModalLabel').html('Edit ' + $('#grid-data').data('type') + " #" + $(e.target).closest('tr').data('row-id'));
+        $('#savebutton').show();
         $('#myModal').modal('show');
     });
 }
@@ -97,7 +110,7 @@ $('#savebutton').on('click', function(){
     });
 });
 
-function setupAutoComplete(){
+function setupModalHandlers(){
     $('[data-source]:not(.tt-hint):not(.tt-input)').each(function(a,b){
         b = $(b);
         var url = b.data('source');
@@ -113,9 +126,11 @@ function setupAutoComplete(){
             $(obj.target).closest('td').find('input[type=hidden]').val(datum.id);
         });
     });
+
+    tinymce.init({selector:'textarea'});
 }
 
-$('#myModal').on('shown.bs.modal',setupAutoComplete);
+$('#myModal').on('shown.bs.modal',setupModalHandlers);
 
 $('#myModal').on('change','tr.autonewrow input',function(e){
     var tr = $(e.target).closest('tr');
@@ -124,6 +139,6 @@ $('#myModal').on('change','tr.autonewrow input',function(e){
     if(templates !== undefined){
         tr.after(template);
     }
-    setupAutoComplete();
+    setupModalHandlers();
     tr.removeClass('autonewrow');
 });

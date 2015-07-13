@@ -27,7 +27,7 @@ $fieldInfo = Array(
         Array( 'id' => 'label','label' => 'Label'),
     ),
     'recipes' => Array(
-        Array( 'id' => 'name', 'label' => 'Name', 'css-class' => 'widercol', 'header-css-class' => 'widercol'),
+        Array( 'id' => 'name', 'label' => 'Name', 'css-class' => 'widercol', 'header-css-class' => 'widercol', 'formatter' => 'recipe-link'),
         Array( 'id' => 'category', 'label' => 'Category'),
         Array( 'id' => 'tags', 'label' => 'Tags', 'formatter' => 'tags'),
         Array( 'id' => 'display_name', 'label' => 'Display Name'),
