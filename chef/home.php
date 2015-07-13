@@ -1,6 +1,8 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-session_start();
 if($_SESSION['loggedin'] !== TRUE){
     header("Location:index.php");
     exit();

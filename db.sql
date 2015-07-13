@@ -86,8 +86,10 @@ CREATE TABLE recipe_ingredient (
 CREATE VIEW pretty_ingredients AS
     (
         SELECT 
+            ri.id,
             ri.recipe_id, 
             ri.ingredient_id, 
+            ri.unit_id,
             COALESCE(ri.premodifier, '') AS premodifier, 
             COALESCE(i.plural, i.name) AS name, 
             COALESCE(ri.postmodifier, '') AS postmodifier, 

@@ -1,9 +1,9 @@
 <?php
-
 require_once('../lib/template.php');
 
-session_start();
-
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 if(isset($_POST['username']) && isset($_POST['password'])){
     if($config['admin'] == $_POST['username'] && $config['adminpw'] == $_POST['password']){
         $_SESSION['loggedin'] = TRUE;

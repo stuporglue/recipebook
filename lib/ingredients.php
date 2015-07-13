@@ -84,7 +84,6 @@ class Ingredients {
         }
 
         foreach($tmp as $name => $ingredient){
-            print_r($ingredient);
             $humanU = Ingredients::makeHumanUnit($ingredient['quantity'],$ingredient['unit']);
             $tmp[$name]['unit'] = $humanU['unit'];
             $tmp[$name]['quantity'] = $humanU['quant'];

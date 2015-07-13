@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 if($_SESSION['loggedin'] !== TRUE){
     header("Location:index.php");
     exit();
@@ -169,10 +172,6 @@ function getPaginatedRecipes(){
         $where = " WHERE r." . pg_escape_identifier($matches[1]);
     }
 
-
-    error_log($q . $where);
-
-
     return wrapUp($q,$where);
 }
 
@@ -188,6 +187,7 @@ function wrapUp($q,$where){
         $q .= implode(',',$orders);
     }
 
+    $countQ = "SELECT COUNT(q.*) AS count FROM ($q) q";
     $q .= " LIMIT " . (int)$_REQUEST['rowCount'] . " OFFSET " . (int)($_REQUEST['rowCount'] * ($_REQUEST['current'] - 1));
 
     $res = pg_query($q);
@@ -196,7 +196,7 @@ function wrapUp($q,$where){
         $rows[] = $row;
     }
 
-    $countres = pg_query_params("SELECT COUNT(*) AS count FROM " . pg_escape_identifier($_REQUEST['table']) . $where,Array());
+    $countres = pg_query_params($countQ,Array());
     $count = pg_fetch_assoc($countres);
 
     return Array(
@@ -215,6 +215,8 @@ function makeIngredientRow($ingredient = FALSE){
             'id' => '',
             'quantity' => '',
             'unit_id' => '',
+            'unit' => '',
+            'name' => '',
             'premodifier' => '',
             'ingredient_id' => '',
             'postmodifier' => '',
@@ -266,7 +268,7 @@ function makeSubRecipes($subrecipe = FALSE){
             <input data-source='ta_childrecipe' value=\"{$subrecipe['child_name']}\">
         </td>
         <td>
-            <input name='s_childname[]' value=\"{$subrecipe['childname']}\">
+            <input name='s_childname[]' value=\"{$subrecipe['child_name']}\">
         </td>
         </tr>";
 }
@@ -325,21 +327,28 @@ function processRecipePost(){
             $res = pg_query($action);
         }
 
-        $action = "DELETE FROM recipe WHERE id=" . pg_escape_literal($_POST['id']);
-        return;
+        $action = "DELETE FROM recipes WHERE id=" . pg_escape_literal($_POST['id']);
+
+        $res = pg_query($action);
+
+        header("Content-type: application/json");
+        if($res){
+            $row = pg_fetch_assoc($res);
+            print json_encode($row);
+        }else{
+            http_response_code(500);
+            print json_encode(Array("success" => FALSE,"msg" => pg_last_error()));
+        }
+
+        exit();
     }
 
-    $_POST['quick'] = ($_POST['quick'] == 'on' ? TRUE : FALSE);
-    $_POST['favorite'] = ($_POST['favorite'] == 'on' ? TRUE : FALSE);
-    $_POST['hide'] = ($_POST['hide'] == 'on' ? TRUE : FALSE);
+    $_POST['quick'] = ($_POST['quick'] == 'on' ? 1 : 0);
+    $_POST['favorite'] = ($_POST['favorite'] == 'on' ? 1 : 0);
+    $_POST['hide'] = ($_POST['hide'] == 'on' ? 1: 0);
 
     $ingredients = array_filter($ingredients,function($ingredient){ return count(array_filter($ingredient)); });
     $subrecipes = array_filter($subrecipes,function($subrecipe){ return count(array_filter($subrecipe)); });
-
-    print_r($_POST);
-    print_r($ingredients);
-    print_r($subrecipes);
-    exit();
 
     // For update/insert we update/insert the recipe and verify that we have the recipe ID, then we update/insert the other stuff
     $action = updateOrInserts($_POST,'recipes');
@@ -380,17 +389,24 @@ function updateOrInserts($data,$table){
     $values = Array();
 
     foreach($data as $k => $v){
-        if($k != 'id'){
+        if($k != 'id' && !empty($v)){
             $fields[] = pg_escape_identifier($k);
             $values[] = pg_escape_literal($v);
         }
     }
 
-    $kvPairs = Array('fields' => "(" . implode(',',$fields) . ")",'values' => "(" . implode(',',$values) . ")");
-
     if(isset($data['id']) && $data['id'] != ''){
-        $action = "UPDATE $table {$kvPairs['fields']} = {$kvPairs['values']} WHERE id=" . pg_escape_literal($_POST['id']) . " RETURNING id";
+        $kvCombo = array_combine($fields,$values);
+        $setPairs = Array();
+        foreach($kvCombo as $k => $v){
+            $setPairs[] = "$k=$v";
+        }
+
+        $action = "UPDATE $table SET ";
+        $action .= implode(', ',$setPairs);
+        $action .= " WHERE id=" . pg_escape_literal($_POST['id']) . " RETURNING id";
     }else{
+        $kvPairs = Array('fields' => "(" . implode(',',$fields) . ")",'values' => "(" . implode(',',$values) . ")");
         $action = "INSERT INTO $table {$kvPairs['fields']} VALUES {$kvPairs['values']} RETURNING id";
     }
 

@@ -26,7 +26,7 @@ if(isset($_GET['id'])){
 <div class='formline'><label for='name'>Recipe Name</label><input required type='text' value="<?=$updateme['name']?>" name='name'></div>
 <div class='formline'><label for='display_name'>Display Name</label><input type='text' value="<?=$updateme['display_name']?>" name='display_name'></div>
 <div class='formline'><label for='about'>About</label><textarea name='about'><?=$updateme['about']?></textarea></div>
-<div class='formline'><label for='instructions'>Instructions</label><textarea name='about'><?=$updateme['instructions']?></textarea></div>
+<div class='formline'><label for='instructions'>Instructions</label><textarea name='instructions'><?=$updateme['instructions']?></textarea></div>
 <div class='formline'><label for='category'>Category</label><select name='category'>
 <option value="">--</option>
 <?php foreach(getCategories() as $category){

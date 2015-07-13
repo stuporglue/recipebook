@@ -1,12 +1,9 @@
 <?php
-
-session_start();
-
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 function handler($errno,$errstr,$errfile,$errline,$errcontext){
-    if(isset($_SERVER['HTTP_REFERER'])){
-        error_log($_SERVER['HTTP_REFERER'] . ' ---> ' . $_SERVER['REQUEST_URI']);
-    }
     error_log($errstr . ' -- ' . $errfile . ":" . $errline);
 }
 
