@@ -40,5 +40,6 @@ input,select {
 textarea {
     width: 100%;
     resize:vertical;
-    height: 200px;
+    height: 120px;
 }
+

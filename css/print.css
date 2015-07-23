@@ -54,3 +54,6 @@ body,html,.container,.jumbotron,.row {
     padding-left: 0;
 }
 
+li[itemprop=ingredient] a[href]:after {
+    content: "";
+}

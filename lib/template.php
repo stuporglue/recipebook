@@ -182,7 +182,6 @@ function printFooter(){
             <script src='{$relpath}chef/bootgrid/jquery.bootgrid.js'></script>
             <script src='{$relpath}chef/bootgrid/jquery.bootgrid.fa.js'></script>
             <script src='{$relpath}js/admin.js'></script>
-            <script src='//tinymce.cachefly.net/4.2/tinymce.min.js'></script>
             ";
     }
 

@@ -38,9 +38,9 @@ if(isset($_GET['id'])){
 }
 ?>
 </select>
-<div class='formline checkbox'><label for='quick'>Quick<input type='checkbox' name='quick' <?= ($updateme['quick'] === 't' ? 'checked' : '') ?>></label></div>
-<div class='formline checkbox'><label for='favorite'>Favorite<input type='checkbox' name='favorite' <?= ($updateme['favorite'] === 't' ? 'checked' : '') ?>></label></div>
-<div class='formline checkbox'><label for='hide'>Hide<input type='checkbox' name='hide' <?= ($updateme['hide'] === 't' ? 'checked' : '') ?>></label></div>
+<div class='formline '><label for='quick'>Quick</label><input type='checkbox' name='quick' <?= ($updateme['quick'] === 't' ? 'checked' : '') ?>></div>
+<div class='formline '><label for='favorite'>Favorite</label><input type='checkbox' name='favorite' <?= ($updateme['favorite'] === 't' ? 'checked' : '') ?>></div>
+<div class='formline '><label for='hide'>Hide</label><input type='checkbox' name='hide' <?= ($updateme['hide'] === 't' ? 'checked' : '') ?>></div>
 <div class='formgroup'><label>Ingredients</label>
 <table><tr>
     <th>Delete</th>

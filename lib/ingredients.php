@@ -17,7 +17,7 @@ class Ingredients {
                 $liinner[] = "<span itemprop='amount'>" . implode(' ',$quant) . "</span>";
             }
             $liinner[] = $ingredient['premodifier'];
-            $liinner[] = "<a itemprop='name' href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient screenonly'>" . htmlentities($ingredient['name']) . "</a><span class='ingredient print'>" . htmlentities($ingredient['name']) . "</span>" ;
+            $liinner[] = "<a itemprop='name' href='".str_repeat('../',$urlDepth)."ingredient/".urlencode($ingredient['name'])."' class='ingredient'>" . htmlentities($ingredient['name']) . "</a>";
             $liinner[] =  $ingredient['postmodifier'];
 
             if($ingredient['unit'] == 'to taste'){

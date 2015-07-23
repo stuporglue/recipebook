@@ -127,7 +127,9 @@ function setupModalHandlers(){
         });
     });
 
-    tinymce.init({selector:'textarea'});
+    $('textarea').each(function(i,element){
+        makeEditor(element);
+    });
 }
 
 $('#myModal').on('shown.bs.modal',setupModalHandlers);
@@ -142,3 +144,6 @@ $('#myModal').on('change','tr.autonewrow input',function(e){
     setupModalHandlers();
     tr.removeClass('autonewrow');
 });
+
+function makeEditor(target){
+}
