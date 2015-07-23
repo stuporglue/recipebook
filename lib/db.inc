@@ -52,7 +52,11 @@ function getCategories(){
 }
 
 function getCategory($cat) {
-    $res = pg_query_params('SELECT *,COALESCE(label,name) AS label FROM categories WHERE name=$1',Array($cat));
+    if(is_numeric($cat)){
+        $res = pg_query_params('SELECT *,COALESCE(label,name) AS label FROM categories WHERE id=$1',Array($cat));
+    }else{
+        $res = pg_query_params('SELECT *,COALESCE(label,name) AS label FROM categories WHERE name=$1',Array($cat));
+    }
     return pg_fetch_assoc($res);
 }
 
@@ -78,6 +82,20 @@ function getUnit($id){
 function getIngredient($id){
     $res = pg_query_params("SELECT * FROM ingredients WHERE id=$1",Array($id));
     return pg_fetch_assoc($res);
+}
+
+function getIngredientIdByIdOrName($ingId){
+    if(is_numeric($ingId)){
+        return $ingId;
+    }
+    
+    $res = pg_query_params("SELECT id FROM ingredients WHERE name=$1",Array($ingId));
+    $assoc = pg_fetch_assoc($res);
+    if(isset($assoc['id'])){
+        return $assoc['id'];
+    }
+
+    return FALSE;
 }
 
 function getAllIngredients(){

@@ -136,7 +136,7 @@ class recipe {
         $res = pg_query_params('SELECT r.name,r.quick,r.favorite FROM recipe_recipe rr, recipes r WHERE rr.parent=r.id AND rr.child=$1',Array($this->id));
         $parents = Array();
         while($row = pg_fetch_assoc($res)){
-            $parents[] = "<li><a href='../recipe/" . urlencode($row['name']) . "' alt='{$row['name']}'>{$row['name']}</a>".($row['quick'] == 't' ? $quickicon : '') . ($row['favorite'] == 't' ? $favoriteicon : '')."</li>";
+            $parents[] = "<li><a href=\"../recipe/" . urlencode($row['name']) . "\" title=\"{$row['name']}\" alt=\"{$row['name']}\">{$row['name']}</a>".($row['quick'] == 't' ? $quickicon : '') . ($row['favorite'] == 't' ? $favoriteicon : '')."</li>";
         }
 
         if(count($parents) === 0){

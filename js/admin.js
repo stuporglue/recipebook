@@ -63,9 +63,12 @@ function previewLink(link){
 }
 
 function editRecord(e){
-    $.get($('#grid-data').data('type') + '_form.php?id=' + $(e.target).closest('tr').data('row-id'),function(res){
+    var type = $(e).data('type') || $('#grid-data').data('type');
+    var row_id = $(e).data('row-id') || $(e.target).closest('tr').data('row-id');
+
+    $.get('/chef/' + type + '_form.php?id=' + row_id,function(res){
         $('#myModal .modal-body').html(res);
-        $('#myModalLabel').html('Edit ' + $('#grid-data').data('type') + " #" + $(e.target).closest('tr').data('row-id'));
+        $('#myModalLabel').html('Edit ' + type + " #" + row_id);
         $('#savebutton').show();
         $('#myModal').modal('show');
     });
@@ -102,7 +105,6 @@ $('#savebutton').on('click', function(){
     var postData = theForm.serialize();
 
     $.post(postUrl,postData).then(function(success){
-        console.log("Success");
         grid.bootgrid('reload');
         $('#myModal').modal('hide');
     },function(failure){

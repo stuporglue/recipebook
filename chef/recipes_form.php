@@ -21,7 +21,7 @@ if(isset($_GET['id'])){
 }
 
 ?>
-<form method='post' action='<?= $_SERVER['REQUEST_URI']?>'>
+<form class='admin' method='post' action='<?= $_SERVER['REQUEST_URI']?>'>
 <input type='hidden' name='id' value="<?=$updateme['id']?>">
 <div class='formline'><label for='name'>Recipe Name</label><input required type='text' value="<?=$updateme['name']?>" name='name'></div>
 <div class='formline'><label for='display_name'>Display Name</label><input type='text' value="<?=$updateme['display_name']?>" name='display_name'></div>

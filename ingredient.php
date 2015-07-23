@@ -7,6 +7,9 @@ printHeader(implode(' ',array_map('ucfirst',explode(' ',$ingId))),'');
 <?php
 print "<h1 class='ingredient'>" . htmlentities($ingId) . "!</h1>";
 ?>
+
+<?php editLink('ingredients',getIngredientIdByIdOrName($ingId)); ?>
+
     These are all the recipes that use <?=htmlentities($ingId)?>. If you just love it, or want to use it up, this is the place to be.
 </div>
 <div class="container">

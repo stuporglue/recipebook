@@ -1,29 +1,32 @@
-tr td:first-child,
-tr th:first-child {
+.admin tr td:first-child,
+.admin tr th:first-child {
     max-width: 65px;
     width: 65px;
 }
 
 
 /* Admin area forms */
-label,input,select {
+.admin label,
+.admin input,
+.admin select {
     display: inline-block;
 }
 
-label {
+.admin label {
     width: 20%;
 }
 
-input,select {
+.admin input,
+.admin select {
     width: 80%;
     max-width: 250px;
 }
 
-.idcol {
+.admin .idcol {
     width: 75px;
 }
 
-.widercol {
+.admin .widercol {
     width: 350px;
 }
 
@@ -32,14 +35,17 @@ input,select {
     overflow: auto;
 }
 
-.iframepreview {
+.modal .modal-dialog { 
+    width: 800px; 
+}
+
+.admin .iframepreview {
     height: 500px;
     width: 100%;
 }
 
-textarea {
+.admin textarea {
     width: 100%;
     resize:vertical;
     height: 120px;
 }
-

@@ -73,12 +73,12 @@ function printEditorInterface($type,$fields){
 function processPost($table){
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-        $kvPairs = updateOrInserts($_POST);
+        $kvPairs = updateOrInserts($_POST,$table);
 
         if(isset($_POST['action']) && $_POST['action'] == 'delete'){
             $action = "DELETE FROM $table WHERE id=" . pg_escape_literal($_POST['id']);
         }else{
-            $action = updateOrInserts($_POST);
+            $action = updateOrInserts($_POST,$table);
         }
         $res = pg_query($action);
 
@@ -106,7 +106,7 @@ function getStandard($table,$fields){
     $where = "";
     if(isset($_REQUEST['searchPhrase']) && $_REQUEST['searchPhrase'] != ''){
         $phrase = " ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%');
-        $where = implode("OR $phrase",$selectfields) . $phrase;
+        $where = implode(" $phrase OR ",$selectfields) . $phrase;
     }
 
     return wrapUp($q,$where);
@@ -124,8 +124,7 @@ function getPaginatedUnits(){
 
     $where = "";
     if(isset($_REQUEST['searchPhrase']) && $_REQUEST['searchPhrase'] != ''){
-        $where = " WHERE 
-            u.name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
+        $where = " u.name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
             u.plural ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " ";
     }
 
@@ -148,8 +147,7 @@ function getPaginatedRecipes(){
 
     $where = "";
     if(isset($_REQUEST['searchPhrase']) && $_REQUEST['searchPhrase'] != ''){
-    $where = " WHERE 
-        r.name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
+        $where = " r.name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
         r.about ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
         r.instructions ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
         c.name ILIKE " . pg_escape_literal('%' . $_REQUEST['searchPhrase'] . '%') . " OR
@@ -169,14 +167,16 @@ function getPaginatedRecipes(){
 
     if(strpos($_REQUEST['searchPhrase'],'is:') === 0){
         preg_match('|is:\s*(.*)\s*$|',$_REQUEST['searchPhrase'],$matches);
-        $where = " WHERE r." . pg_escape_identifier($matches[1]);
+        $where = " r." . pg_escape_identifier($matches[1]);
     }
-
     return wrapUp($q,$where);
 }
 
 function wrapUp($q,$where){
-    $q .= $where;
+
+    if(!empty($where)){
+        $q .= " WHERE $where";
+    }
 
     if(count($_REQUEST['sort']) > 0){
         $q .= " ORDER BY ";
@@ -318,18 +318,13 @@ function processRecipePost(){
 
     // For delete -- we delete our sub-stuff, then our recipe
     if(isset($_POST['action']) && $_POST['action'] == 'delete'){
-        foreach($subrecipes as $k => $subr){
-            $action = "DELETE FROM recipe_recipe WHERE id=" . pg_escape_literal($subr['id']);
-            $res = pg_query($action);
-        }
+        $action = "DELETE FROM recipe_recipe WHERE parent=" . pg_escape_literal($_POST['id']);
+        $res = pg_query($action);
 
-        foreach($ingredients as $k => $ing){
-            $action = "DELETE FROM recipe_ingredient WHERE id=" . pg_escape_literal($ing['id']);
-            $res = pg_query($action);
-        }
+        $action = "DELETE FROM recipe_ingredient WHERE recipe_id=" . pg_escape_literal($_POST['id']);
+        $res = pg_query($action);
 
         $action = "DELETE FROM recipes WHERE id=" . pg_escape_literal($_POST['id']);
-
         $res = pg_query($action);
 
         header("Content-type: application/json");

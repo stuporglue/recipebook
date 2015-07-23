@@ -18,6 +18,7 @@ $favoriteicon = " <span class='glyphicon glyphicon-heart' title='A Caroline favo
 function printHeader($title="EatMoore",$activeCat=NULL){
     global $quickicon,$favoriteicon;
 
+    $print_admin_css = (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == TRUE);
     $admin_area = strpos($_SERVER['REQUEST_URI'],'/chef/') === 0;
 
     $relpath = '//' . $_SERVER['HTTP_HOST'] . '/';
@@ -51,7 +52,7 @@ $header = "<!DOCTYPE html>
     <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
     ";
 
-    if($admin_area){
+    if($print_admin_css){
         $header .= "<link type='text/css' href='{$relpath}chef/bootgrid/jquery.bootgrid.min.css' rel='stylesheet' media='screen'/>";
         $header .= "<link type='text/css' href='{$relpath}css/admin.css' rel='stylesheet' media='screen'/>";
     }
@@ -68,7 +69,7 @@ $header = "<!DOCTYPE html>
     <![endif]-->
   </head>
 
-  <body role='document' class='$activeCat'>
+  <body role='document' class='$activeCat" . ($admin_area ? ' admin' : '') . "'>
 
     <!-- Fixed navbar -->
     <nav class='navbar navbar-inverse navbar-fixed-top' role='navigation'>
@@ -141,6 +142,7 @@ $header = "<!DOCTYPE html>
 
 function printFooter(){
     $relpath = '//' . $_SERVER['HTTP_HOST'] . '/';
+    $print_admin_css = (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == TRUE);
     $admin_area = strpos($_SERVER['REQUEST_URI'],'/chef/') === 0;
 
     $footer = "
@@ -177,7 +179,7 @@ function printFooter(){
     <script src='{$relpath}js/typeahead.bundle.js'></script>
     ";
 
-    if($admin_area){
+    if($print_admin_css){
         $footer .= "
             <script src='{$relpath}chef/bootgrid/jquery.bootgrid.js'></script>
             <script src='{$relpath}chef/bootgrid/jquery.bootgrid.fa.js'></script>
@@ -203,4 +205,8 @@ function printFooter(){
     print $footer;
 }
 
-
+function editLink($type,$id){
+    if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === TRUE){
+        print "<div><a href='#' data-type='$type' data-row-id='$id' onclick='editRecord(this);'>(Edit)</a></div>";
+    }
+}

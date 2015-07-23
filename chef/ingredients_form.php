@@ -12,7 +12,7 @@ if(isset($_GET['id'])){
         );
 }
 ?>
-<form method='post' action='<?= $_SERVER['REQUEST_URI']?>'>
+<form class='admin' method='post' action='<?= $_SERVER['REQUEST_URI']?>'>
 <input type='hidden' name='id' value='<?=$updateme['id']?>'>
 <div class='formline'><label for='name'>Ingredient Name</label><input required type='text' value='<?=$updateme['name']?>' name='name'></div>
 <div class='formline'><label for='plural'>Plural Name</label><input type='text' value='<?=$updateme['plural']?>' name='plural'></div>

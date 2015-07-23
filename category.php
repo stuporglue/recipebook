@@ -7,6 +7,11 @@ printHeader($category['label'],$catId);
 <div class="jumbotron">
 <?php
 print "<h1>" . htmlentities($category['label']) . "</h1>";
+
+print "\n";
+editLink('categories',$category['id']); 
+print "\n";
+
 print "</div><div class='container'>";
         $res = getAllFromCategory($catId);
         print "<ul class='recipelist'>";

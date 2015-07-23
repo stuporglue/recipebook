@@ -17,6 +17,9 @@ if($r->favorite == 't'){
     print $favoriteicon;
 }
 ?></h1>
+
+<?php editLink('recipes',$r->id); ?>
+
 <div class='hidden'>
 </div>
 <?php
