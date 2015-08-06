@@ -228,7 +228,7 @@ function makeIngredientRow($ingredient = FALSE){
     return "<tr data-type='ingredient' class='$autoNew'>
         <td>
             <input name='i_id[]' type='hidden' value=\"{$ingredient['id']}\">
-            <input type='checkbox' name='i_delete[]'>
+            <input type='checkbox' name='i_delete[]' value=\"{$ingredient['id']}\">
         </td>
         <td><input name='i_quantity[]' value=\"{$ingredient['quantity']}\"></td>
         <td>

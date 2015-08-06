@@ -18,11 +18,6 @@ if(empty($_REQUEST['q'])){
 
 require_once('../lib/db.inc');
 
-$res = pg_query_params('SELECT id,name FROM ' . $table . ' WHERE name ILIKE $1',Array('%' . $_REQUEST['q']. '%'));
-
-$rows = Array();
-while($row = pg_fetch_assoc($res)){
-    $rows[] = $row;
-}
+$rows = typeAhead($table,$_REQUEST['q']);
 
 print json_encode($rows);

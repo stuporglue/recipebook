@@ -132,3 +132,14 @@ function search($term){
     $res = pg_query_params('SELECT * FROM search WHERE search ILIKE $1',Array('%' . $term . '%'));
     return $res;
 }
+
+function typeAhead($table,$q){
+    $res = pg_query_params('SELECT id,name FROM ' . $table . ' WHERE name ILIKE $1',Array('%' . $q . '%'));
+
+    $rows = Array();
+    while($row = pg_fetch_assoc($res)){
+        $rows[] = $row;
+    }
+
+    return $rows;
+}
