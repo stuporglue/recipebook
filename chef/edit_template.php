@@ -228,7 +228,7 @@ function makeIngredientRow($ingredient = FALSE){
     return "<tr data-type='ingredient' class='$autoNew'>
         <td>
             <input name='i_id[]' type='hidden' value=\"{$ingredient['id']}\">
-            <input type='checkbox' name='i_delete[]' value=\"{$ingredient['id']}\">
+            <input type='checkbox' name='i_delete[]' value=\"{$ingredient['ingredient_id']}\">
         </td>
         <td><input name='i_quantity[]' value=\"{$ingredient['quantity']}\"></td>
         <td>
@@ -280,6 +280,7 @@ function processRecipePost(){
     }
 
     $ingredients = Array();
+    $delete_ingredients = Array();
     $subrecipes = Array();
 
     // Convert i_ and s_ post arrays into ingredient and subrecipe arrays
@@ -287,7 +288,11 @@ function processRecipePost(){
         if(strpos($k,'i_') === 0){
             $realk = str_replace('i_','',$k);
             foreach($val as $kk => $vv){
-                $ingredients[$kk][$realk] = $vv;
+                if($realk == 'delete'){
+                    $delete_ingredients[] = $vv;
+                }else{
+                    $ingredients[$kk][$realk] = $vv;
+                }
             }
             unset($_POST[$k]);
         }
@@ -358,6 +363,11 @@ function processRecipePost(){
         $ingredient['recipe_id'] = $recipe_row['id'];
         $action = updateOrInserts($ingredient,'recipe_ingredient',$ingredient['id']);
         pg_query($action);
+    }
+
+    if(count($delete_ingredients) > 0){
+        $action = "DELETE FROM recipe_ingredient WHERE recipe_id=" . pg_escape_literal($_POST['id']) . " AND ingredient_id IN (" . implode(',',array_map('pg_escape_literal',$delete_ingredients)) . ")";
+        $res = pg_query($action);
     }
 
     foreach($subrecipes as $k => $subrecipe){
