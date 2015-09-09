@@ -31,7 +31,7 @@ if(isset($_GET['id'])){
 <option value="">--</option>
 <?php foreach(getCategories() as $category){
     $selected = '';
-    if($category['id'] == $updateme['cid']){
+    if(isset($updateme['cid']) && $category['id'] == $updateme['cid']){
         $selected = 'selected';
     }
     print "<option $selected value=\"{$category['id']}\">{$category['label']}</option>";
@@ -51,7 +51,7 @@ if(isset($_GET['id'])){
     <th>PostModifier</th>
 </tr>
 <?php
-if($recipe){
+if(isset($recipe)){
     foreach($recipe->getIngredients() as $ingredient){
         print makeIngredientRow($ingredient);
     }

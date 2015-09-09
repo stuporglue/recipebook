@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if($_SESSION['loggedin'] !== TRUE){
+if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== TRUE){
     header("Location:index.php");
     exit();
 }
@@ -344,9 +344,9 @@ function processRecipePost(){
         exit();
     }
 
-    $_POST['quick'] = ($_POST['quick'] == 'on' ? 1 : 0);
-    $_POST['favorite'] = ($_POST['favorite'] == 'on' ? 1 : 0);
-    $_POST['hide'] = ($_POST['hide'] == 'on' ? 1: 0);
+    $_POST['quick'] = ((isset($_POST['quick']) && $_POST['quick'] == 'on') ? 1 : 0);
+    $_POST['favorite'] = ((isset($_POST['favorite']) && $_POST['favorite'] == 'on') ? 1 : 0);
+    $_POST['hide'] = ((isset($_POST['hide']) && $_POST['hide'] == 'on') ? 1: 0);
 
     $ingredients = array_filter($ingredients,function($ingredient){ return count(array_filter($ingredient)); });
     $subrecipes = array_filter($subrecipes,function($subrecipe){ return count(array_filter($subrecipe)); });
@@ -394,7 +394,7 @@ function updateOrInserts($data,$table,$tableKey = FALSE){
     $fields = Array();
     $values = Array();
 
-    if($tableKey === FALSE){
+    if($tableKey === FALSE && isset($_POST['id'])){
         $tableKey = $_POST['id'];
     }
 
