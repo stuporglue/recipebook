@@ -36,7 +36,7 @@ class Ingredients {
         // http://symbolcodes.tlt.psu.edu/bylanguage/mathchart.html#fractions
         $whole = (int)$unit;
         $whole = ($whole === 0 ? '' : $whole . ' ');
-        $part = round(fmod($unit,1) * 100) / 100;
+        $part = round(round(fmod($unit,1) * 12) / 12,2);
 
         switch($part){
         case 0:
