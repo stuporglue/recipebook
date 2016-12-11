@@ -9,6 +9,7 @@ if(isset($_GET['id'])){
         'id' => '',
         'name' => '',
         'plural' => '',
+        'abbreviation' => '',
         'base_unit' => '',
         'base_count' => ''
         );
@@ -18,6 +19,7 @@ if(isset($_GET['id'])){
 <input type='hidden' name='id' value='<?=$updateme['id']?>'>
 <div class='formline'><label for='name'>Unit Name</label><input required type='text' value='<?=$updateme['name']?>' name='name'></div>
 <div class='formline'><label for='plural'>Plural Name</label><input type='text' value='<?=$updateme['plural']?>' name='plural'></div>
+<div class='formline'><label for='abbreviation'>Abbreviation</label><input type='text' value='<?=$updateme['abbreviation']?>' name='abbreviation'></div>
 <div class='formline'><label for='base_count'>Base Count</label><input type='number' value='<?=$updateme['base_count']?>' name='base_count'></div>
 <div class='formline'><label for='base_unit'>Base Unit</label><select name='base_unit'>
     <option value=''>--</option>

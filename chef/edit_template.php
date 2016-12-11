@@ -73,7 +73,7 @@ function printEditorInterface($type,$fields){
 function processPost($table){
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-        $kvPairs = updateOrInserts($_POST,$table);
+        // $kvPairs = updateOrInserts($_POST,$table);
 
         if(isset($_POST['action']) && $_POST['action'] == 'delete'){
             $action = "DELETE FROM $table WHERE id=" . pg_escape_literal($_POST['id']);
@@ -399,10 +399,13 @@ function updateOrInserts($data,$table,$tableKey = FALSE){
     }
 
     foreach($data as $k => $v){
-        if($k != 'id' && !(empty($v) && $v !== 0)){
+        if($k != 'id' && !(empty($v) && $v !== 0) && $v !== 'NULL'){
             $fields[] = pg_escape_identifier($k);
             $values[] = pg_escape_literal($v);
-        }
+        } else if($k != 'id' && $v === 'NULL'){
+            $fields[] = pg_escape_identifier($k);
+            $values[] = 'NULL';
+		}
     }
 
     if(isset($data['id']) && $data['id'] != ''){

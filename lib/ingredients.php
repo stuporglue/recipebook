@@ -7,8 +7,13 @@ class Ingredients {
         foreach($ingredients as $ingredient){
             $liinner = Array();
 
+			if( empty($ingredient['abbreviation']) ) {
+				$ingredient['abbreviation'] = $ingredient['unit'];
+			}
+
             if($ingredient['unit'] != 'to taste'){
                 $quant = Array();
+
                 $quant[] = Ingredients::quantityToString($ingredient['quantity']);
                 if($ingredient['abbreviation'] !== ''){
                     $quant[] = "<span title='{$ingredient['unit']}'>{$ingredient['abbreviation']}</span>";
